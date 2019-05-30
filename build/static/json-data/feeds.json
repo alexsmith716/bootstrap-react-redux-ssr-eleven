@@ -1,0 +1,19 @@
+{
+  "timeline_url": "https://github.com/timeline",
+  "user_url": "https://github.com/{user}",
+  "security_advisories_url": "https://github.com/security-advisories",
+  "_links": {
+    "timeline": {
+      "href": "https://github.com/timeline",
+      "type": "application/atom+xml"
+    },
+    "user": {
+      "href": "https://github.com/{user}",
+      "type": "application/atom+xml"
+    },
+    "security_advisories": {
+      "href": "https://github.com/security-advisories",
+      "type": "application/atom+xml"
+    }
+  }
+}

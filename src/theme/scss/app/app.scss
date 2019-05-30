@@ -1,0 +1,287 @@
+// ================================================================================
+// GLOBAL STYLING
+// ================================================================================
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height plus a 'margin-top: 15px' */
+  margin-bottom: calculate-rem($footer-height + $footer-margin-top);
+}
+
+#main-nav .navbar-collapse .navbar-nav .nav-item .nav-link {
+  cursor: pointer;
+}
+
+h2 {
+  @include tester-font2;
+}
+
+hr {
+  border-color: $secondary;
+}
+
+hr.light {
+  border-color: $light;
+}
+
+.fa-padding {
+  padding-left: calculate-rem(4px);
+  padding-right: calculate-rem(4px);
+}
+
+.button-facebook,
+.button-google {
+  line-height: 1.2;
+  width: calculate-rem(116px);
+  height: calculate-rem(40px);
+  border-radius: calculate-rem(3px);
+  border: calculate-rem(1px) solid #B8B8B8;
+  background-color: #ffffff;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.button-facebook {
+  color: #3b5998;
+}
+
+.button-facebook i {
+  font-size: calculate-rem(20px);
+  margin-right: calculate-rem(10px);
+  padding-bottom: calculate-rem(1px);
+}
+
+.button-google {
+  color: #555555;
+}
+
+.button-google img {
+  width: calculate-rem(19px);
+  margin-right: calculate-rem(10px);
+  padding-bottom: calculate-rem(1px);
+}
+
+.button-facebook:hover,
+.button-google:hover {
+  border-color: #EEEEE0;
+}
+
+.form-control-feedback {
+  text-align: inherit;
+}
+
+.btn-width-one-quarter {
+  width: 25%;
+}
+
+.btn-width-one-third {
+  width: 33%;
+}
+
+.btn-width-one-half {
+  width: 50%;
+}
+
+.btn-width-three-quarters {
+  width: 75%;
+}
+
+.font-weight-bold {
+  font-weight: bold;
+}
+
+.font-weight-600 {
+  font-weight: 600;
+}
+
+.font-size-smaller-90 {
+  font-size: 90%;
+}
+
+.width-100 {
+  width: calculate-rem(100px);
+}
+
+.width-200 {
+  width: calculate-rem(200px);
+}
+
+.width-300 {
+  width: calculate-rem(300px);
+}
+
+.width-400 {
+  width: calculate-rem(400px);
+}
+
+.width-500 {
+  width: calculate-rem(500px);
+}
+
+.width-600 {
+  width: calculate-rem(600px);
+}
+
+.width-800 {
+  width: calculate-rem(800px);
+}
+
+.width-one-quarter {
+  width: 25%;
+}
+
+.width-one-third {
+  width: 33%;
+}
+
+.width-one-half {
+  width: 50%;
+}
+
+.width-three-quarters {
+  width: 75%;
+}
+
+.container-flex {
+  display: flex;
+}
+
+.boundingbox {
+  position: absolute;
+  box-shadow: 0 0 0 3px #333333 inset;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.display-flex-justify-direction-align-center {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.basic-border-goldenrod-1 {
+  border: calculate-rem(1px) solid #DAA520;
+  border-radius: calculate-rem(3px);
+}
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.svg-content {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  .line {
+    stroke-width: 2;
+    fill: #4F94CD;
+  }
+  .axis path {
+    stroke: black;
+  }
+}
+
+// ===============================================================
+
+// padding-top: 1.5em;
+// padding-right: .5em;
+// padding-bottom: 1.5em;
+// padding-left: 3em;
+
+// p {padding: 1.5em .5em 1.5em 3em;}
+
+// .box {
+//   width: px;
+//   height: px;
+//   margin: 24px 48px; /* = 24px 48px 24px 48px */
+//   border: calculate-rem(1px) solid #d8dee2;
+//   padding: 12px 18px 6px; /* = 12px 18px 6px 18px */
+// }
+
+// BOX -------------------------------------------------
+// margin > 
+//    background-color > 
+//      background: image > 
+//        border > 
+//          outline > padding > content (centered)
+
+// ===============================================================
+
+.basic-outer-box {
+  border: calculate-rem(1px) solid #d8dee2;
+  padding: calculate-rem(2px) calculate-rem(2px);
+}
+
+.basic-inner-box {
+  border: calculate-rem(1px) solid #d8dee2;
+  padding: calculate-rem(5px) calculate-rem(5px);
+}
+
+.padding-two-border-radius-six {
+  padding: calculate-rem(2px);
+  border-radius: calculate-rem(6px);
+}
+
+.padding-five-border-radius-three {
+  padding: calculate-rem(5px);
+  border-radius: calculate-rem(3px);
+}
+
+.container-padding-border-radius-1 {
+  padding: calculate-rem(10px) calculate-rem(10px);
+  border: calculate-rem(1px) solid #009900;
+  border-radius: calculate-rem(3px);
+}
+
+.container-padding-border-radius-2 {
+  padding: calculate-rem(10px) calculate-rem(10px);
+  border: calculate-rem(2px) solid #B0C4DE;
+  border-radius: calculate-rem(3px);
+}
+
+.container-padding-border-radius-3 {
+  padding: calculate-rem(10px);
+  border: calculate-rem(4px) solid #009900;
+  border-radius: calculate-rem(3px);
+}
+
+.container-padding-10-border-1-radius-2 {
+  padding: calculate-rem(10px);
+  border: calculate-rem(1px) solid #009900;
+  border-radius: calculate-rem(2px);
+}
+
+.container-padding-5-border-1-radius-1 {
+  padding: calculate-rem(5px);
+  border: calculate-rem(1px) solid #009900;
+  border-radius: calculate-rem(1px);
+}
+
+// ---------------------------------------------------------------
+// GLOBAL @imports
+// ---------------------------------------------------------------
+
+// FONTS
+@import "./global-fonts.scss";
+
+// BACKGROUNDS
+@import "./global-backgrounds.scss";
+
+// COLORS
+@import "./global-colors.scss";
