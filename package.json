@@ -2,7 +2,7 @@
   "private": true,
   "name": "bootstrap-react-redux-ssr-eleven",
   "version": "0.0.1",
-  "description": "Applying Async/Await middleware for Redux.",
+  "description": "Applying async middleware for Redux.",
   "main": "bin/server.js",
   "author": "dev",
   "license": "MIT",
