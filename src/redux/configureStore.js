@@ -16,6 +16,22 @@ function combine(reducers) {
 
 // ----------------------------------------------------------------------
 
+// Custom Logger Middleware
+function customLogger({ getState }) {
+  return next => action => {
+    console.log('>>>>>>>>>>>>>>>>> configureStore > customLogger() > will dispatch', action);
+
+    // Call the next dispatch method in the middleware chain.
+    const returnValue = next(action)
+
+    console.log('>>>>>>>>>>>>>>>>> configureStore > customLogger() > state after dispatch', getState());
+
+    // This will likely be the action itself, unless
+    // a middleware further in chain changed it.
+    return returnValue
+  }
+}
+
 const configureStore = ({history, helpers, preloadedState}) => {
 
   const m = asyncMiddleware(helpers);
@@ -25,6 +41,10 @@ const configureStore = ({history, helpers, preloadedState}) => {
   const middleware = [m];
 
   console.log('>>>>>>>>>>>>>>>>> configureStore > preloadedState:', preloadedState);
+
+  if (__CLIENT__ && __DEVELOPMENT__) {
+    middleware.push(customLogger);
+  }
 
   // ----------------------------------------------------------------------
   // middleware.push(notify(events));
