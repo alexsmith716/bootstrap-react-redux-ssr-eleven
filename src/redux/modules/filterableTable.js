@@ -20,20 +20,7 @@ const HANDLE_FILTER_TEXT_CHANGE = 'redux-example/filterableTable/HANDLE_FILTER_T
 const HANDLE_IN_STOCK_CHANGE = 'redux-example/filterableTable/HANDLE_IN_STOCK_CHANGE';
 const HANDLE_DROPDOWN_CHANGE = 'redux-example/filterableTable/HANDLE_DROPDOWN_CHANGE';
 
-import axios from 'axios';
-// import axiosClient from '../../utils/axiosClient';
-import axiosClientInstance from '../../utils/axiosClientInstance';
-
 import initialState from '../initial-state';
-
-// filterableTable: {
-//   loaded: false,
-//   dropDownOptionSelected: '',
-//   error: false,
-//   isLoading: false,
-//   fetchedData: null,
-//   didInvalidate: false,
-// },
 
 // Reducer
 // -------------------
@@ -124,27 +111,3 @@ export function load(value) {
     promise: ({ client }) => client.get(value.request)
   };
 }
-
-// export function load(value) {
-//   const request = axios.get(value.request)
-//   console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > axiosClientInstance.get()  instance: ', instance)
-//   // console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > axiosClientInstance.get()  typeof instance: ', typeof instance)
-//   return dispatch => {
-//     dispatch(loadAction());
-// 
-//     return axios.get(value.request)
-//       .then(response => {
-//         console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > typeof  response: ', response)
-//         console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > typeof  typeof response: ', typeof response)
-//         // console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > RESPONSE.data: ', response.data)
-//         console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > RESPONSE > JSON.stringify: ', JSON.stringify(response.data))
-//         dispatch(loadSuccess(response.data))
-//         // setTimeout( () => dispatch(loadSuccess(response.data)), 1000 )
-//       })
-//       .catch(error => {
-//         console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > ERROR.data: ', error.response ? error.response.data : error)
-//         dispatch(loadFailure(error.response ? error.response.data : error))
-//         // setTimeout( () => dispatch(loadFailure(error.response ? error.response.data : error)), 1000 )
-//       })
-//   }
-// }

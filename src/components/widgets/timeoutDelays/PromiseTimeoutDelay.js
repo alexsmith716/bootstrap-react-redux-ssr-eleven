@@ -33,34 +33,61 @@ export default PromiseTimeoutDelay;
 // Currying is holding of values needed to complete an operation until the rest can be supplied at a later point in time
 // This is achieved through the use of a function that returns another function, the curried function
 
+* Currying is a functional technique that involves the use of "higher order functions". 
+* Currying is the practice of holding on to some of the values needed to complete an operation 
+    until the rest can be supplied at a later point in time. 
+* This is achieved through the use of a function that returns another function, the curried function.
+
+// ---------------------------------
+
+function add(num1, num2) { 
+  return num1 + num2;
+}
+
+function curriedAdd(num2) { 
+  return add(5, num2);
+}
+
+alert(add(2, 3));       //5 
+alert(curriedAdd(3));   //8
+
+// ---------------------------------
+
 // Currying is a process of converting a function with n number of arguments into a nested unary function
 
 // SIMPLE FUNCTION: "const add = (x,y) => x + y;"
 
 // =======================================================
 
-//    function doFilter(query) {
-//      return function (user) {
-//        return query === user.name;
-//      }
-//    }
+      function doFilter(query) {
+        return function (user) {
+          return query === user.name;
+        }
+      }
 //    -------------------------
-//    const doFilter = query => user => query === user.name;
+      const doFilter = (query) => user => {
+        return query === user.name;
+      }
+
+//    const doFilter = (query) => user => query === user.name;
 //    -------------------------
 //    fn = user => 'foo' === user.name;
+      fn = user => {
+        'foo' === user.name;
+      }
 //    -------------------------
 //    const doFilter = query => user => {
 //      return query === user.name;
 //    }
 //    -------------------------
-//    <ul>
-//      {users
-//        .filter(doFilter(this.state.query))
-//        .map(user => <li>{user.name}</li>)
-//      }
-//    </ul>
+      <ul>
+        {users
+          .filter( doFilter(this.state.query) )  <<<<< 'this.state.query' >>>> 'foo'
+          .map(user => <li>{user.name}</li>)
+        }
+      </ul>
 
-// CURRIED FUNCTION: "const addCurried = x => y => x + y;"
+  CURRIED FUNCTION: "const addCurried = x => y => x + y;"
 
 //    addCurried(4)
 //      => fn = y => 4 + y // >>> returns a function where 'x' value is captured via closure <<<
