@@ -10,9 +10,11 @@ App builds off 'bootstrap-react-redux-webpack-ssr-ten'. This app utilizes custom
 Asynchronous Iterators in JavaScript
 -------------------------------------------------------------
 
+'next()' method returns the next item in the sequence
+
 The iterator interface brought by ECMAScript 2015 is designed to iterate over sequential data sources.
 
-An iterator object has the property next() with returns properties { value, done }. The property value contains the next value in the collection. As for done, that contains the boolean value indicating whether the iteration has ended or not.
+An iterator object has the property 'next()' with returns properties '{ value, done }'. The property value contains the next value in the collection. As for done, that contains the boolean value indicating whether the iteration has ended or not.
 
 Since both values value and done need to be known at the time the iterator method returns, iterators are only suitable to iterator over synchronous data sources.
 
@@ -20,7 +22,7 @@ However, many data sources are asynchronous. Examples are I/O access and fetch. 
 
 For this, JavaScript introduces the AsyncIterator interface.
 
-AsyncIterator is much like an iterator, except that the next() property returns a promise with the tuple { value, done } instead of the direct value of { value, done }.
+AsyncIterator is much like an iterator, except that the 'next()' property returns a promise with the tuple '{ value, done }' instead of the direct value of '{ value, done }'.
 
 `const { value, done } = syncIterator.next();`
 
