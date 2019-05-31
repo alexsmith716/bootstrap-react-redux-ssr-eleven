@@ -9,9 +9,7 @@ import createRootReducer from './reducers';
 // ----------------------------------------------------------------------
 
 // const middleware = [thunk];
-// const middleware = [asyncMiddleware];
 
-// state shape
 function combine(reducers) {
   return combineReducers(reducers);
 };
@@ -20,7 +18,11 @@ function combine(reducers) {
 
 const configureStore = ({history, helpers, preloadedState}) => {
 
-  const middleware = [asyncMiddleware(helpers)];
+  const m = asyncMiddleware(helpers);
+
+  console.log('>>>>>>>>>>>>>>>>> configureStore > asyncMiddleware(helpers):', m);
+
+  const middleware = [m];
 
   console.log('>>>>>>>>>>>>>>>>> configureStore > preloadedState:', preloadedState);
 
@@ -38,6 +40,8 @@ const configureStore = ({history, helpers, preloadedState}) => {
 
   const enhancers = [applyMiddleware(...middleware)];
 
+  console.log('>>>>>>>>>>>>>>>>> configureStore > enhancers:', enhancers);
+
   // ----------------------------------------------------------------------
 
   if (__CLIENT__ && __DEVTOOLS__) {
@@ -51,6 +55,8 @@ const configureStore = ({history, helpers, preloadedState}) => {
   }
 
   const finalEnhancer = compose(...enhancers);
+
+  console.log('>>>>>>>>>>>>>>>>> configureStore > finalEnhancer:', finalEnhancer);
 
   // ----------------------------------------------------------------------
 

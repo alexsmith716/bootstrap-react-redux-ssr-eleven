@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const PromiseTimeoutDelay = (delay) => (
 
 );
@@ -40,26 +39,26 @@ export default PromiseTimeoutDelay;
 
 // =======================================================
 
-// function doFilter(query) {
-//   return function (user) {
-//     return query === user.name;
-//   }
-// }
-// -------------------------
-// const doFilter = query => user => query === user.name;
-// -------------------------
-// fn = user => 'foo' === user.name;
-// -------------------------
-// const doFilter = query => user => {
-//   return query === user.name;
-// }
-// -------------------------
-// <ul>
-//   {users
-//     .filter(doFilter(this.state.query))
-//     .map(user => <li>{user.name}</li>)
-//   }
-// </ul>
+//    function doFilter(query) {
+//      return function (user) {
+//        return query === user.name;
+//      }
+//    }
+//    -------------------------
+//    const doFilter = query => user => query === user.name;
+//    -------------------------
+//    fn = user => 'foo' === user.name;
+//    -------------------------
+//    const doFilter = query => user => {
+//      return query === user.name;
+//    }
+//    -------------------------
+//    <ul>
+//      {users
+//        .filter(doFilter(this.state.query))
+//        .map(user => <li>{user.name}</li>)
+//      }
+//    </ul>
 
 // CURRIED FUNCTION: "const addCurried = x => y => x + y;"
 
@@ -72,3 +71,4 @@ export default PromiseTimeoutDelay;
 // curried function: 'const addCurried = x => y => x + y;'
 // 'addCurried(4)' >>>> returns a function ('fn = y => 4 + y'))
 // so, 'addCurried(4)(4)' >>>> returns '8' (8 = 4 + 4)
+
