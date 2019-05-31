@@ -3,13 +3,26 @@ export default function asyncMiddleware(helpers) {
   return ({ dispatch, getState }) => next => action => {
 
     if (typeof action === 'function') {
+      console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > RETURNING NO ASYNC: ', typeof action)
       return action(dispatch, getState);
     }
+
+    console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > action: ', action)
 
     const { promise, types, ...rest } = action;
     
     if (!promise) {
+      // {
+      //   "type": "redux-example/filterableTable/SELECTED_OPTION",
+      //   "option": "https://api.github.com/emojis",
+      //   "meta": {
+      //     "__multireducerKey": "AboutOneMultireducerFilterableTable1"
+      //   }
+      // }
+      console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > NO promise')
       return next(action);
+    } else {
+      console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > YES promise')
     }
 
     const [REQUEST, SUCCESS, FAILURE] = types;
@@ -25,6 +38,8 @@ export default function asyncMiddleware(helpers) {
         next({ ...rest, error, type: FAILURE });
       });
 
+    console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > actionPromise: ', actionPromise)
+    // returning "Promise"
     return actionPromise;
   };
 }
