@@ -29,6 +29,7 @@ export default function reducer(state = initialState.filterableTable, action = {
   switch (action.type) {
 
     case SELECTED_OPTION:
+      console.log('3333333333333333333 ####################################### 3333333333333333333a')
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > SELECTED_OPTION > state: ', state);
       return {
         ...state,
@@ -42,6 +43,7 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     case LOAD:
+      console.log('3333333333333333333 ####################################### 3333333333333333333b')
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD > state: ', state);
       return {
         ...state,
@@ -49,6 +51,7 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     case LOAD_SUCCESS:
+      console.log('3333333333333333333 ####################################### 3333333333333333333bb')
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > state: ', state);
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > action.result: ', action.result);
       return {
@@ -71,12 +74,14 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     default:
+      console.log('3333333333333333333 ####################################### 33333333333333333330000000')
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > default > state: ', state);
       return state;
   }
 }
 
-// Action Creators
+// Actions (action creators)
+// an action is a JavaScript object that has a 'type' and an optional 'payload' (data)
 // -------------------
 export function selectedOption(value) {
   return {
@@ -85,27 +90,8 @@ export function selectedOption(value) {
   };
 };
 
-export function loadAction() {
-  return {
-    type: LOAD
-  }
-};
-
-export function loadSuccess(fetchedData) {
-  return {
-    type: LOAD_SUCCESS,
-    result: fetchedData
-  }
-};
-
-export function loadFailure(error) {
-  return {
-    type: LOAD_FAIL,
-    result: error
-  }
-};
-
 export function load(value) {
+  console.log('222222222222222222222 ####################################### 22222222222222222222')
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: ({ client }) => client.get(value.request)

@@ -144,7 +144,7 @@ export default ({ clientStats }) => async (req, res) => {
     const context = {};
 
     const component = (
-      <Provider store={store} >
+      <Provider store={store} {...providers}>
         <ConnectedRouter history={history}>
           <StaticRouter location={req.originalUrl} context={context}>
             <ReduxAsyncConnect routes={routes} >
