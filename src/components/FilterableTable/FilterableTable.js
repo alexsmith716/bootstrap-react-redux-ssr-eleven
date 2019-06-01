@@ -16,6 +16,7 @@ import enumerateObjectValues from '../../utils/enumerateObjectValues';
 
 // UI bindings
 // @connect({mapStateToProps, mapDispatchToProps})
+// connect the view to the action creators
 @connect(
   (state, { as }) => ({
     dropDownOptionSelected: state.filterableTableCollection[as].dropDownOptionSelected,
@@ -90,6 +91,7 @@ class FilterableTable extends Component {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() <<<<<<<<<<<<<<: ', this.props.description);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > this.props.dropDownOptionSelected: ', dropDownOptionSelected);
     if (fetchedData === null && !error && isLoading) {
+      console.log('11111111111111111111 ####################################### 11111111111111111111')
       load({ request: dropDownOptionSelected });
     }
     // loading LOAD_FAIL

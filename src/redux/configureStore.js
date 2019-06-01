@@ -1,14 +1,11 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
-/// import thunk from 'redux-thunk';
-import asyncMiddleware from './asyncMiddleware';
+import clientMiddleware from './clientMiddleware';
 import { reduxBatch } from '@manaflair/redux-batch';
 import createRootReducer from './reducers';
 // import notify from 'redux-notify';
 // import events from './events';
 
 // ----------------------------------------------------------------------
-
-// const middleware = [thunk];
 
 function combine(reducers) {
   return combineReducers(reducers);
@@ -22,25 +19,22 @@ function customLogger({ getState }) {
     console.log('>>>>>>>>>>>>>>>>> configureStore > customLogger() > will dispatch', action);
 
     // Call the next dispatch method in the middleware chain.
-    const returnValue = next(action)
+    const returnValue = next(action);
 
     console.log('>>>>>>>>>>>>>>>>> configureStore > customLogger() > state after dispatch', getState());
 
     // This will likely be the action itself, unless
     // a middleware further in chain changed it.
-    return returnValue
+    return returnValue;
   }
-}
+};
 
-const configureStore = ({history, helpers, preloadedState}) => {
+// encapsulate all state mutations in the store
 
-  const m = asyncMiddleware(helpers);
+export default function configureStore({history, helpers, preloadedState}) {
 
-  console.log('>>>>>>>>>>>>>>>>> configureStore > asyncMiddleware(helpers):', m);
-
-  const middleware = [m];
-
-  console.log('>>>>>>>>>>>>>>>>> configureStore > preloadedState:', preloadedState);
+  // const middleware = [clientMiddleware(helpers)];
+  const middleware = [clientMiddleware(helpers)];
 
   if (__CLIENT__ && __DEVELOPMENT__) {
     middleware.push(customLogger);
@@ -60,8 +54,6 @@ const configureStore = ({history, helpers, preloadedState}) => {
 
   const enhancers = [applyMiddleware(...middleware)];
 
-  console.log('>>>>>>>>>>>>>>>>> configureStore > enhancers:', enhancers);
-
   // ----------------------------------------------------------------------
 
   if (__CLIENT__ && __DEVTOOLS__) {
@@ -76,8 +68,6 @@ const configureStore = ({history, helpers, preloadedState}) => {
 
   const finalEnhancer = compose(...enhancers);
 
-  console.log('>>>>>>>>>>>>>>>>> configureStore > finalEnhancer:', finalEnhancer);
-
   // ----------------------------------------------------------------------
 
   const store = createStore(
@@ -90,19 +80,17 @@ const configureStore = ({history, helpers, preloadedState}) => {
   // ----------------------------------------------------------------------
 
   if (__DEVELOPMENT__ && module.hot) {
-    console.log('>>>>>>>>>>>>>>>>>>> configureStore > MODULE.HOT! <<<<<<<<<<<<<<<<<');
+    console.log('>>>>>>>>>>>>>>>>>>> configureStore() > YES MODULE.HOT <<<<<<<<<<<<<<<<<');
     module.hot.accept('./reducers', () => {
       let reducer = require('./reducers').default;
       reducer = combine(reducer(history));
       store.replaceReducer(reducer);
     });
   } else {
-    console.log('>>>>>>>>>>>>>>>>>>> configureStore > NO MODULE.HOT! <<<<<<<<<<<<<<');
+    console.log('>>>>>>>>>>>>>>>>>>> configureStore() > NO MODULE.HOT <<<<<<<<<<<<<<');
   }
 
   // ----------------------------------------------------------------------
 
   return store;
 };
-
-export default configureStore;

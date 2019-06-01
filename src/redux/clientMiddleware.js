@@ -30,16 +30,20 @@
 // The last middleware in the chain will receive the real store's 'dispatch' method as the 'next' parameter, thus ending the chain
 
 // the middleware signature is '({ getState, dispatch }) => next => action'
-export default function asyncMiddleware(helpers) {
+
+// The dispatcher's role in a Flux application is to:
+//  accept actions, one at a time, and hand them off to the stores
+
+// provide a point between dispatching an action, and the moment it reaches the reducer
+// LIKE talking to an asynchronous API
+export default function clientMiddleware(helpers) {
 
   return ({ dispatch, getState }) => next => action => {
 
     if (typeof action === 'function') {
-      console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > RETURNING NO ASYNC: ', typeof action)
+      console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > RETURNING typeof action === function: ', typeof action)
       return action(dispatch, getState);
     }
-
-    console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > action: ', action)
 
     const { promise, types, ...rest } = action;
     
@@ -51,10 +55,10 @@ export default function asyncMiddleware(helpers) {
       //     "__multireducerKey": "AboutOneMultireducerFilterableTable1"
       //   }
       // }
-      console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > NO promise')
+      console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > NO promise: ', action)
       return next(action);
     } else {
-      console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > YES promise')
+      console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > YES promise: ', action)
     }
 
     const [REQUEST, SUCCESS, FAILURE] = types;
@@ -64,74 +68,46 @@ export default function asyncMiddleware(helpers) {
     const actionPromise = promise(helpers, dispatch);
 
     actionPromise
-      .then(result => next({ ...rest, result, type: SUCCESS }), error => next({ ...rest, error, type: FAILURE }))
+      .then( result => next({ ...rest, result, type: SUCCESS }), error => next({ ...rest, error, type: FAILURE }) )
       .catch(error => {
         console.error('MIDDLEWARE ERROR:', error);
         next({ ...rest, error, type: FAILURE });
       });
 
-    console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > actionPromise: ', actionPromise)
+    console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > actionPromise: ', actionPromise)
     // returning "Promise"
     return actionPromise;
   };
 }
 
-// const isPromise = (obj) => obj && typeof obj.then === 'function';
-// 
-// export default () => {
-// 
+// // Middleware
+// export default function promiseMiddleware() {
+
 //   return (next) => (action) => {
-// 
-//     console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > action: ', action)
-// 
-//     const { type, payload } = action;
-// 
-//     console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > action.type: ', type)
-//     console.log('>>>>>>>>>> asyncMiddleware <<<<<<<<<<<<<<<<< > action.payload: ', payload)
-// 
-//     if (!isPromise(payload)) {
-//       console.log('>>>>>>>>>> asyncMiddleware > !isPromise(payload) <<<<<<<<<< > next(action):', next(action))
+
+//     const { promise, types, ...rest } = action;
+
+//     if (!promise) {
 //       return next(action);
-//     } else {
-//       console.log('>>>>>>>>>> asyncMiddleware > isPromise(payload) <<<<<<<<<<<<<<<<<')
 //     }
 // 
-//     const PENDING = `${type}_PENDING`;
-//     const SUCCESS = type;
-//     const FAILURE = `${type}_FAILURE`;
-// 
-//     next({ type: PENDING });
-// 
-//     return payload
-//       .then((result) => {
-//         next({ type: SUCCESS, payload: result });
-//         return true;
-//       })
-//       .catch((error) => {
-//         next({ type: FAILURE, error: true, payload: error });
-//         console.error(error);
-//         return false;
-//       });
-//   };
-// };
+//     const [REQUEST, SUCCESS, FAILURE] = types;
 
-// const inflight = {};
+//     next({ ...rest, type: REQUEST });
+
+//     return promise.then(
+//       (result) => next({ ...rest, result, type: SUCCESS }),
+//       (error) => next({ ...rest, error, type: FAILURE })
+//     );
+
+//   };
+// }
 // 
-// const dedupeMiddleware = store => next => action => {
-//   if (action.payload == null || action.payload.constructor.name !== 'AsyncFunction') {
-//     // If `action.payload` isn't a function, we can't really cancel this action, and
-//     // if this function isn't async then assume it is sync
-//     return next(action);
-//   }
-//   if (inflight[action.type]) {
-//     // Ignore if there's an action with this type already in progress
-//     return;
-//   }
-// 
-//   inflight[action.type] = true;
-//   action.payload(action).then(
-//     () => { inflight[action.type] = false; },
-//     () => { inflight[action.type] = false; }
-//   );
-//   next(action);
-// };
+// // Usage
+// function doSomethingAsync(userId) {
+//   return {
+//     types: [SOMETHING_REQUEST, SOMETHING_SUCCESS, SOMETHING_FAILURE],
+//     promise: requestSomething(userId),
+//     userId
+//   };
+// }

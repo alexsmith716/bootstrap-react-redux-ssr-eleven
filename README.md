@@ -7,6 +7,13 @@ App builds off 'bootstrap-react-redux-webpack-ssr-ten'. This app utilizes custom
 =============================================================
 =============================================================
 
+viewAction  >  action (action creator)  >  asyncMiddleware (IS promise? sync ? doSync : doAsync)  >  store(will dispatch)  > reducer  >  store(state after dispatch)  > asyncMiddleware (sync ? doSync : doAsync)
+
+to be continued ...
+
+=============================================================
+=============================================================
+
 Asynchronous Iterators in JavaScript
 -------------------------------------------------------------
 
