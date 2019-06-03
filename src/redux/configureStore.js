@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import clientMiddleware from './clientMiddleware';
-import { reduxBatch } from '@manaflair/redux-batch';
 import createRootReducer from './reducers';
 // import notify from 'redux-notify';
 // import events from './events';
@@ -23,8 +22,6 @@ function customLogger({ getState }) {
 
     console.log('>>>>>>>>>>>>>>>>> configureStore > customLogger() > state after dispatch', getState());
 
-    // This will likely be the action itself, unless
-    // a middleware further in chain changed it.
     return returnValue;
   }
 };

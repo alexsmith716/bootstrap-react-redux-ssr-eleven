@@ -14,6 +14,8 @@ function getComponents(match) {
 // --------------------------------------------------------------------------
 
 function getParams(match) {
+  // (function that performs the reduction operation,
+  // initial value to pass to the function)
   return match.reduce((result, component) => {
     if (component.match && component.match.params) {
       return { ...result, ...component.match.params };

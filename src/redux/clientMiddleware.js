@@ -35,13 +35,13 @@
 //  accept actions, one at a time, and hand them off to the stores
 
 // provide a point between dispatching an action, and the moment it reaches the reducer
-// LIKE talking to an asynchronous API
+// like handling the actions of an asynchronous API
 export default function clientMiddleware(helpers) {
 
   return ({ dispatch, getState }) => next => action => {
 
     if (typeof action === 'function') {
-      console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > RETURNING typeof action === function: ', typeof action)
+      console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > RETURNING typeof action === function: ', typeof action);
       return action(dispatch, getState);
     }
 
@@ -55,10 +55,10 @@ export default function clientMiddleware(helpers) {
       //     "__multireducerKey": "AboutOneMultireducerFilterableTable1"
       //   }
       // }
-      console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > NO promise: ', action)
+      console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > NO promise: ', action);
       return next(action);
     } else {
-      console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > YES promise: ', action)
+      console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > YES promise: ', action);
     }
 
     const [REQUEST, SUCCESS, FAILURE] = types;
@@ -74,7 +74,7 @@ export default function clientMiddleware(helpers) {
         next({ ...rest, error, type: FAILURE });
       });
 
-    console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > actionPromise: ', actionPromise)
+    console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > actionPromise: ', actionPromise);
     // returning "Promise"
     return actionPromise;
   };
