@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
 
-// --------------------------------------------------------------------------
+
+@connect(
+  state => ({ online: state.online })
+)
+
 
 class Home extends Component {
 
-  UNSAFE_componentWillMount() {
-    console.log('>>>>>>>>>>>>>>>> HOME > UNSAFE_componentWillMount() <<<<<<<<<<<<<<');
-  }
+  static propTypes = {
+    online: PropTypes.bool.isRequired
+  };
 
   componentDidMount() {
     console.log('>>>>>>>>>>>>>>>> HOME > componentDidMount() <<<<<<<<<<<<<<');
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('>>>>>>>>>>>>>>>> HOME > componentDidUpdate() <<<<<<<<<<<<<<');
+  };
 
   componentWillUnmount() {
     console.log('>>>>>>>>>>>>>>>> HOME > componentWillUnmount() <<<<<<<<<<<<<<');
@@ -20,7 +29,10 @@ class Home extends Component {
 
   render() {
 
+    const { online } = this.props;
     const styles = require('./scss/Home.scss');
+
+    console.log('>>>>>>>>>>>>>>>> HOME > render() > online:', online);
 
     return (
 

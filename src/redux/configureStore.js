@@ -28,7 +28,7 @@ function customLogger({ getState }) {
 
 // encapsulate all state mutations in the store
 
-export default function configureStore({history, helpers, preloadedState}) {
+export default function configureStore({history, helpers, data}) {
 
   // const middleware = [clientMiddleware(helpers)];
   const middleware = [clientMiddleware(helpers)];
@@ -69,7 +69,7 @@ export default function configureStore({history, helpers, preloadedState}) {
 
   const store = createStore(
     combine(createRootReducer(history)),
-    preloadedState,
+    data,
     // reduxBatch,
     finalEnhancer
   )

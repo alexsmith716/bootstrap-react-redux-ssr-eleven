@@ -18,6 +18,7 @@ export { default as initialState } from './initial-state';
 // state shape
 export default function rootReducer(history) {
   return {
+    online: (v = true) => v,
     router: connectRouter(history),
     counter,
     device,
