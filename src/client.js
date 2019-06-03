@@ -27,9 +27,21 @@ import apiClient from './helpers/apiClient';
 
 import configureStore from './redux/configureStore';
 
+import isOnline from './utils/isOnline';
+
 import './js/app';
 
 // =====================================================================
+
+const persistConfig = {
+  // key: 'root',
+  // storage: localForage,
+  // stateReconciler(inboundState, originalState) {
+  //   // Ignore state from cookies, only use preloadedState from window object
+  //   return originalState;
+  // },
+  // whitelist: ['info']
+};
 
 const dest = document.getElementById('content');
 // const dest = document.querySelector('#content');
@@ -51,12 +63,25 @@ const providers = {
   // ######## ----------- CREATE BROWSER HISTORY OBJECT ----------------- ######
   // ###########################################################################
 
-  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__PRELOADED__ ??: ', window.__PRELOADED__)
+  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__PRELOADED__ ??: ', window.__PRELOADED__);
+  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__data ??: ', window.__data);
+
   const preloadedState = window.__data;
+  // const preloadedState = await getStoredState(persistConfig);
+
+  const online = window.__data ? true : await isOnline();
 
   const history = createBrowserHistory();
 
-  const store = configureStore({history, helpers: providers, preloadedState});
+  const store = configureStore({
+    history,
+    helpers: providers,
+    data: {
+      ...preloadedState,
+      ...window.__data,
+      online
+    },
+  });
 
   //console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > history: ', history);
 

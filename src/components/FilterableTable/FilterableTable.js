@@ -149,26 +149,25 @@ class FilterableTable extends Component {
       ? arrayLike = true
       : arrayLike = null;
 
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > externalData > ARRAYLIKE ??? ', arrayLike, '!');
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > dropDownOptionSelected: ', dropDownOptionSelected);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData: ', fetchedData);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > isLoading: ', isLoading);
-    console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > dropDownOptionSelected: ', dropDownOptionSelected);
     // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.entries()::::::: ', Object.entries(fetchedData));
+
+    // return (
+    //   <div>{`${dropDownOptionSelected}`}</div>
+    // )
 
     if (fetchedData) {
 
       if (arrayLike) {
-        // return (
-        //   <div>{`${dropDownOptionSelected}`}</div>
-        // )
-      
-        items = Array.from(fetchedData).map((item, index) => {
 
-          console.log('>>>>>>>>>>>>>>>>>>> INDEX 11111111: ', index);
+        items = Array.from(fetchedData).map((item, index) => {
 
           let fromItem = item;
           let fromIndex = index;
           let ok = Object.keys(fromItem).map((item, index) => {
-            console.log('>>>>>>>>>>>>>>>>>>> INDEX 22222222: ', index);
             return <div key={index}>{`${fromIndex}: ${item}: "${fromItem[item]}"`}</div>
           })
 

@@ -116,7 +116,11 @@ export default ({ clientStats }) => async (req, res) => {
     client: apiClient(req)
   };
 
-  const store = configureStore({history, helpers: providers, preloadedState});
+  const store = configureStore({
+    history,
+    helpers: providers,
+    data: preloadedState
+  });
 
   console.log('>>>>>>>>>>>>>>>> SERVER > store: ', store);
 
