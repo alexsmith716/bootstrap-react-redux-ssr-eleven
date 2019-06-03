@@ -16,7 +16,7 @@ class Tables extends Component {
   }
 
   static propTypes = {
-    tablesData: PropTypes.array.isRequired,
+    tablesData: PropTypes.object.isRequired,
     filterText: PropTypes.string,
     inStockOnly: PropTypes.bool
   };
@@ -30,8 +30,6 @@ class Tables extends Component {
   }
 
   render() {
-
-    // console.log('>>>>>>>>>>>>>>>> TABLES > RENDER >  tablesData: ', JSON.stringify(this.props.tablesData));
 
     const data = this.props.tablesData;
     const filterText = this.props.filterText;

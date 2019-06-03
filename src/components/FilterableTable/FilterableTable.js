@@ -11,8 +11,7 @@ import * as filterableTableActions from '../../redux/modules/filterableTable';
 // import { selectedOption } from '../../redux/modules/filterableTable';
 import enumerateObjectValues from '../../utils/enumerateObjectValues';
 
-// <FilterableTable optionsArray={dropDownOptions} description='Filterable Product Table 1' />
-// <FilterableTable optionsArray={dropDownOptions2} description='Filterable Product Table 2' />
+// should > render > didupdate
 
 // UI bindings
 // @connect({mapStateToProps, mapDispatchToProps})
@@ -83,7 +82,7 @@ class FilterableTable extends Component {
     // this._loadAsyncData(this.props.id);
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     // if (this.state.externalData === null) {
     //   this._loadAsyncData(this.props.id);
     // }
@@ -91,7 +90,7 @@ class FilterableTable extends Component {
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() <<<<<<<<<<<<<<: ', this.props.description);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > this.props.dropDownOptionSelected: ', dropDownOptionSelected);
     if (fetchedData === null && !error && isLoading) {
-      console.log('11111111111111111111 ####################################### 11111111111111111111')
+      console.log('11111111111111111111 ####################################### 11111111111111111111');
       load({ request: dropDownOptionSelected });
     }
     // loading LOAD_FAIL
@@ -116,7 +115,9 @@ class FilterableTable extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
+    // invoked before rendering when new props or state are being received
     console.log('>>>>>>>>>>>>>>>> FilterableTable > shouldComponentUpdate() > nextProps: ', nextProps);
+    console.log('>>>>>>>>>>>>>>>> FilterableTable > shouldComponentUpdate() > nextState: ', nextState);
     return nextProps;
   };
 
@@ -142,6 +143,11 @@ class FilterableTable extends Component {
 
     const loadingText = 'Fetching Requested Data ...';
     // const errorText = {`${errorResponse.message} /\n ${errorResponse.message}`};
+    let items = null;
+
+    let arrayLike = fetchedData && fetchedData.length > 0
+      ? arrayLike = true
+      : arrayLike = null;
 
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > fetchedData: ', fetchedData);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > isLoading: ', isLoading);
@@ -149,9 +155,46 @@ class FilterableTable extends Component {
     // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.entries()::::::: ', Object.entries(fetchedData));
 
     if (fetchedData) {
-      return (
-        <div>{`${dropDownOptionSelected}`}</div>
-      )
+
+      if (arrayLike) {
+        // return (
+        //   <div>{`${dropDownOptionSelected}`}</div>
+        // )
+      
+        items = Array.from(fetchedData).map((item, index) => {
+
+          console.log('>>>>>>>>>>>>>>>>>>> INDEX 11111111: ', index);
+
+          let fromItem = item;
+          let fromIndex = index;
+          let ok = Object.keys(fromItem).map((item, index) => {
+            console.log('>>>>>>>>>>>>>>>>>>> INDEX 22222222: ', index);
+            return <div key={index}>{`${fromIndex}: ${item}: "${fromItem[item]}"`}</div>
+          })
+
+          return (
+            <div key={index}>
+              {ok}
+
+              {fromIndex !== fetchedData.length-1 && (
+                <div key={index}>---------</div>
+              )}
+            </div>
+          )
+        });
+
+      } else {
+
+        items = Object.keys(fetchedData).map((item, index) => {
+          // console.log('>>>>>>>>>>>>>>>> FilterableTable > render() > Object.keys(): index: ', index, ' item: ', item,' fetchedData[item]: ', fetchedData[item]);
+          return <div key={index}>{`${index}: ${item}: "${fetchedData[item]}"`}</div>;
+        });
+
+        // items = Object.keys(fetchedData).map((item, index) => (
+        //   <div key={index}>{`${index}: ${item}: "${fetchedData[item]}"`}</div>
+        // ));
+
+      }
     }
 
     // ------------------------------------------------------------------------------------

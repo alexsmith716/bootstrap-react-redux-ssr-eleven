@@ -1,12 +1,3 @@
-// isolate concerns within a Redux application (modules)
-// https://github.com/erikras/ducks-modular-redux
-
-// middleware
-// allow some actions to pass a "promise generator"
-// https://github.com/reduxjs/redux/issues/99
-
-// >>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_FAIL > action.result:  
-// Object { message: "Not Found", documentation_url: "https://developer.github.com/v3/gists/#get-a-single-gist" }
 
 // Actions
 // -------------------
@@ -29,7 +20,7 @@ export default function reducer(state = initialState.filterableTable, action = {
   switch (action.type) {
 
     case SELECTED_OPTION:
-      console.log('3333333333333333333 ####################################### 3333333333333333333a')
+      console.log('3333333333333333333 ####################################### 3333333333333333333a');
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > SELECTED_OPTION > state: ', state);
       return {
         ...state,
@@ -43,7 +34,7 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     case LOAD:
-      console.log('3333333333333333333 ####################################### 3333333333333333333b')
+      console.log('3333333333333333333 ####################################### 3333333333333333333b');
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD > state: ', state);
       return {
         ...state,
@@ -51,8 +42,9 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     case LOAD_SUCCESS:
-      console.log('3333333333333333333 ####################################### 3333333333333333333bb')
+      console.log('3333333333333333333 ####################################### 3333333333333333333bb');
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > state: ', state);
+      console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > action: ', action);
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > action.result: ', action.result);
       return {
         ...state,
@@ -74,11 +66,11 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     default:
-      console.log('3333333333333333333 ####################################### 33333333333333333330000000')
+      console.log('3333333333333333333 ####################################### 33333333333333333330000000');
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > default > state: ', state);
       return state;
   }
-}
+};
 
 // Actions (action creators)
 // an action is a JavaScript object that has a 'type' and an optional 'payload' (data)
@@ -91,9 +83,47 @@ export function selectedOption(value) {
 };
 
 export function load(value) {
-  console.log('222222222222222222222 ####################################### 22222222222222222222')
+  console.log('222222222222222222222 ####################################### 22222222222222222222');
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: ({ client }) => client.get(value.request)
   };
-}
+};
+
+// export function loadAction() {
+//   return {
+//     type: LOAD
+//   }
+// };
+
+// export function loadSuccess(fetchedData) {
+//   return {
+//     type: LOAD_SUCCESS,
+//     result: fetchedData
+//   }
+// };
+
+// export function loadFailure(error) {
+//   return {
+//     type: LOAD_FAIL,
+//     result: error
+//   }
+// };
+
+// export function load(value) {
+//   return dispatch => {
+//     dispatch(loadAction());
+// 
+//     return axios.get(value.request)
+//       .then(response => {
+//         console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > typeof  RESPONSE.data: ', typeof response.data)
+//         console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > RESPONSE.data: ', response.data)
+//         // console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > RESPONSE > JSON.stringify: ', JSON.stringify(response.data))
+//         dispatch(loadSuccess(response.data))
+//       })
+//       .catch(error => {
+//         console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > axios > load() > ERROR.data: ', error.response ? error.response.data : error)
+//         dispatch(loadFailure(error.response ? error.response.data : error))
+//       })
+//   }
+// }
