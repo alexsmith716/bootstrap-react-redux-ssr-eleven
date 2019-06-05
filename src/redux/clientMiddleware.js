@@ -1,3 +1,14 @@
+// isolate concerns within a Redux application (modules)
+// https://github.com/erikras/ducks-modular-redux
+
+// Best async serverside loading technique? (middleware enabling non-blocking code)
+// https://github.com/reduxjs/redux/issues/99
+// 1) To allow the action creators access to the client API facade
+// 2) To allow some (async) actions to pass a "promise generator"
+// "promise generator": 'a function that takes the API client and returns a promise'
+// Such actions require three action types:
+//    'REQUEST' action that initiates the data loading,
+//    'SUCCESS' and 'FAILURE' action that will be fired depending on the result of the promise
 
 // how to use "synchronous" action creators together with "async" network requests?
 // action creator can return a function instead of an action object
@@ -45,15 +56,14 @@ export default function clientMiddleware(helpers) {
       return action(dispatch, getState);
     }
 
+    // allow the action creators access to the client API facade
     const { promise, types, ...rest } = action;
     
     if (!promise) {
       // {
       //   "type": "redux-example/filterableTable/SELECTED_OPTION",
       //   "option": "https://api.github.com/emojis",
-      //   "meta": {
-      //     "__multireducerKey": "AboutOneMultireducerFilterableTable1"
-      //   }
+      //   "meta": {"__multireducerKey": "AboutOneMultireducerFilterableTable1"}
       // }
       console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > NO promise: ', action);
       return next(action);
@@ -61,6 +71,7 @@ export default function clientMiddleware(helpers) {
       console.log('>>>>>>>>>> clientMiddleware <<<<<<<<<<<<<<<<< > YES promise: ', action);
     }
 
+    // allow some (async) actions to pass a "promise generator"
     const [REQUEST, SUCCESS, FAILURE] = types;
 
     next({ ...rest, type: REQUEST });

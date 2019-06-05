@@ -22,6 +22,12 @@ export default PromiseTimeoutDelay;
 
 // ================
 
+* manually cherry picking methods from a library is cumbersome
+
+* most bundlers (Webpack) offer tree-shaking as a way to drop unused library code and reduce bundle size
+
+// ================
+
 // Higher Order Functions
 // HOF: functions that expect other functions as arguments
 // Array.map, array.filter, array.reduce:  take functions as arguments
@@ -32,6 +38,13 @@ export default PromiseTimeoutDelay;
 // Currying is a functional technique that involves usage of HOF
 // Currying is holding of values needed to complete an operation until the rest can be supplied at a later point in time
 // This is achieved through the use of a function that returns another function, the curried function
+
+* Build functions as sequences of functions, each of which transforms the data and passes it along to the next
+
+* ...functions are automatically curried
+
+* build up new functions from old ones by not supplying the final parameters
+* ...the data to be operated on is supplied last
 
 * Currying is a functional technique that involves the use of "higher order functions". 
 * Currying is the practice of holding on to some of the values needed to complete an operation 
