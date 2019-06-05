@@ -10,6 +10,7 @@ import DropdownSelect from '../DropdownSelect/DropdownSelect';
 import * as filterableTableActions from '../../redux/modules/filterableTable';
 // import { selectedOption } from '../../redux/modules/filterableTable';
 import enumerateObjectValues from '../../utils/enumerateObjectValues';
+import promiseGenerator from '../../utils/promiseGenerator';
 
 // should > render > didupdate
 
@@ -99,7 +100,13 @@ class FilterableTable extends Component {
     }
     // loading LOAD_SUCCESS
     if (!error && !isLoading && fetchedData !== null) {
-      console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_SUCCESS > enumerateObjectValues');
+      const result = promiseGenerator();
+      let p  = result.next().value;
+      p.then(r => {
+        console.log('>>>>>>>>>>>>>>>> FilterableTable > promiseGenerator() > result.next().value: ', p);
+        console.log('>>>>>>>>>>>>>>>> FilterableTable > promiseGenerator() > resolve: ', r);
+        return result.next(r)
+      });
       return enumerateObjectValues(fetchedData)
         .then(response => {
           console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_SUCCESS > enumerateObjectValues > returned: ', response);
@@ -107,7 +114,7 @@ class FilterableTable extends Component {
         .catch(error => {
           console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_SUCCESS > enumerateObjectValues > ERROR: ');
         })
-    } 
+    }
   };
 
   componentWillUnmount() {

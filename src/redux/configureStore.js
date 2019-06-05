@@ -70,7 +70,6 @@ export default function configureStore({history, helpers, data}) {
   const store = createStore(
     combine(createRootReducer(history)),
     data,
-    // reduxBatch,
     finalEnhancer
   )
 
