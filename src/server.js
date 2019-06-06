@@ -122,6 +122,7 @@ export default ({ clientStats }) => async (req, res) => {
   console.log('>>>>>>>>>>>>>>>> SERVER > store: ', store);
 
   function hydrate(a) {
+    console.log('>>>>>>>>>>>>>>>>>>> SERVER > function hydrate(a) !!!!!!!!! <<<<<<<<<<<<<<<<<<<<<<<');
     res.write('<!doctype html>');
     ReactDOM.renderToNodeStream(<Html assets={a} store={store} />).pipe(res);
   }

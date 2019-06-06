@@ -10,6 +10,8 @@ import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import { trigger } from 'redial';
 import {createBrowserHistory} from 'history';
+import localForage from 'localforage';
+import { getStoredState } from 'redux-persist';
 
 import asyncMatchRoutes from './utils/asyncMatchRoutes';
 import { ReduxAsyncConnect } from './components';
@@ -76,7 +78,7 @@ const providers = {
     ReactDOM.hydrate(
       <AppContainer>
         <Provider store={store} >
-          Router history={history}>
+          <Router history={history}>
             <ReduxAsyncConnect routes={_routes}>
               {renderRoutes(_routes)}
             </ReduxAsyncConnect>
