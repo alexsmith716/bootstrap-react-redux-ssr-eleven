@@ -1,6 +1,5 @@
  
 // import { connectedReduxRedirect } from 'redux-auth-wrapper/history4/redirect';
-// import { replace } from 'connected-react-router';
 
 import { App, Home, NotFound } from './containers';
 
@@ -20,8 +19,7 @@ import Register from './containers/Register/Loadable';
 //   authenticatedSelector: state => {
 //     const a = state.auth.user;
 //     return a !== null;
-//   },
-//   redirectAction: replace,          
+//   },       
 //   wrapperDisplayName: 'UserIsAuthenticated'
 // });
 // 
@@ -31,7 +29,6 @@ import Register from './containers/Register/Loadable';
 //     const a = state.auth.user;
 //     return a === null;
 //   },
-//   redirectAction: replace,
 //   wrapperDisplayName: 'UserIsAuthenticated',
 //   allowRedirectBack: false
 // });
