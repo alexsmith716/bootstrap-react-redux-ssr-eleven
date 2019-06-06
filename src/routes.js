@@ -1,8 +1,5 @@
- 
-// import { connectedReduxRedirect } from 'redux-auth-wrapper/history4/redirect';
-
+ // import { connectedReduxRedirect } from 'redux-auth-wrapper/history4/redirect';
 import { App, Home, NotFound } from './containers';
-
 import About from './containers/About/Loadable';
 import AboutOne from './containers/AboutOne/Loadable';
 import AboutTwo from './containers/AboutTwo/Loadable';

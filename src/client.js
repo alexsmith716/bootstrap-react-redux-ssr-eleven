@@ -5,12 +5,11 @@ import 'regenerator-runtime/runtime';
 import { AppContainer  } from 'react-hot-loader';
 
 import React from 'react';
+
 import ReactDOM from 'react-dom';
+import { Router } from 'react-router';
+
 import { Provider } from 'react-redux';
-
-import { ConnectedRouter } from 'connected-react-router';
-
-import { BrowserRouter as Router } from 'react-router-dom';
 
 import { renderRoutes } from 'react-router-config';
 import { trigger } from 'redial';
@@ -144,11 +143,11 @@ const providers = {
     ReactDOM.hydrate(
       <AppContainer>
         <Provider store={store} >
-          <ConnectedRouter history={history}>
+          Router history={history}>
             <ReduxAsyncConnect routes={_routes}>
               {renderRoutes(_routes)}
             </ReduxAsyncConnect>
-          </ConnectedRouter>
+          </Router>
         </Provider>
       </AppContainer>,
       dest

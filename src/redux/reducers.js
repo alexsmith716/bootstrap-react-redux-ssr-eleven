@@ -1,4 +1,3 @@
-import { connectRouter } from 'connected-react-router';
 import multireducer from 'multireducer';
 
 // isolate concerns within a Redux application (modules)
@@ -19,7 +18,6 @@ export { default as initialState } from './initial-state';
 export default function rootReducer(history) {
   return {
     online: (v = true) => v,
-    router: connectRouter(history),
     counter,
     device,
     counterCollection: multireducer({
