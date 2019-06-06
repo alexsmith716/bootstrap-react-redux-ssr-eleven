@@ -78,8 +78,9 @@ export default function configureStore({ data, helpers, persistConfig }) {
     ]);
   }
 
-  const r = __CLIENT__ && __DEVTOOLS__ && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : v => v;
-  const finalCreateStore = createStore(compose(...enhancers, r));
+  // const r = __CLIENT__ && __DEVTOOLS__ && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : v => v;
+
+  const finalCreateStore = compose(...enhancers)(createStore);
 
   const reducers = createRootReducer();
 
