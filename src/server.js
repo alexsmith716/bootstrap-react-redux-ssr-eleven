@@ -14,11 +14,9 @@ import { trigger } from 'redial';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { ConnectedRouter } from 'connected-react-router';
-
 import asyncMatchRoutes from './utils/asyncMatchRoutes';
 
-import { StaticRouter } from 'react-router';
+import { Router, StaticRouter } from 'react-router';
 
 import { ReduxAsyncConnect } from './components';
 
@@ -149,13 +147,13 @@ export default ({ clientStats }) => async (req, res) => {
 
     const component = (
       <Provider store={store} {...providers}>
-        <ConnectedRouter history={history}>
+        <Router history={history}>
           <StaticRouter location={req.originalUrl} context={context}>
             <ReduxAsyncConnect routes={routes} >
               {renderRoutes(routes)}
             </ReduxAsyncConnect>
           </StaticRouter>
-        </ConnectedRouter>
+        </Router>
       </Provider>
     );
 
