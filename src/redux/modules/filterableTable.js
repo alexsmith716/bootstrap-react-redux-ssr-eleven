@@ -1,4 +1,3 @@
-
 // Actions
 // -------------------
 const LOAD = 'redux-example/filterableTable/LOAD';

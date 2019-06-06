@@ -3,42 +3,30 @@ import 'regenerator-runtime/runtime';
 
 // import { AppContainer as HotEnabler } from 'react-hot-loader';
 import { AppContainer  } from 'react-hot-loader';
-
 import React from 'react';
-
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router';
-
 import { Provider } from 'react-redux';
-
 import { renderRoutes } from 'react-router-config';
 import { trigger } from 'redial';
-
-import { ReduxAsyncConnect } from './components';
-
-import asyncMatchRoutes from './utils/asyncMatchRoutes';
-
-import routes from './routes';
-
 import {createBrowserHistory} from 'history';
 
+import asyncMatchRoutes from './utils/asyncMatchRoutes';
+import { ReduxAsyncConnect } from './components';
+import routes from './routes';
 import apiClient from './helpers/apiClient';
-
 import configureStore from './redux/configureStore';
-
 import isOnline from './utils/isOnline';
-
 import './js/app';
 
 // =====================================================================
 
 const persistConfig = {
-  // key: 'root',
-  // storage: localForage,
-  // stateReconciler(inboundState, originalState) {
-  //   // Ignore state from cookies, only use preloadedState from window object
-  //   return originalState;
-  // },
+  key: 'root',
+  storage: localForage,
+  stateReconciler(inboundState, originalState) {
+    return originalState;
+  },
   // whitelist: ['info']
 };
 
@@ -58,14 +46,13 @@ const providers = {
 
 (async () => {
 
-  // ###########################################################################
-  // ######## ----------- CREATE BROWSER HISTORY OBJECT ----------------- ######
-  // ###########################################################################
+  const preloadedState = await getStoredState(persistConfig);
 
-  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__PRELOADED__ ??: ', window.__PRELOADED__);
-  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__data ??: ', window.__data);
+  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > preloadedState: ', preloadedState);
+  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__PRELOADED__: ', window.__PRELOADED__);
+  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__data: ', window.__data);
 
-  const preloadedState = window.__data;
+  // const preloadedState = window.__data;
   // const preloadedState = await getStoredState(persistConfig);
 
   const online = window.__data ? true : await isOnline();
@@ -73,73 +60,19 @@ const providers = {
   const history = createBrowserHistory();
 
   const store = configureStore({
-    history,
-    helpers: providers,
     data: {
       ...preloadedState,
       ...window.__data,
       online
     },
+    helpers: providers,
+    persistConfig
   });
 
   //console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > history: ', history);
 
   const hydrate = async _routes => {
   
-    // const { components, match, params } = await asyncMatchRoutes(_routes, history.location.pathname);
-  
-    // console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > hydrate > __CLIENT__ ?: ', __CLIENT__);
-    // console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > hydrate > __SERVER__ ?: ', __SERVER__);
-  
-    // console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > hydrate > asyncMatchRoutes > components: ', components);
-    // console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > hydrate > asyncMatchRoutes > match: ', match);
-    // console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > hydrate > asyncMatchRoutes > params: ', params);
-  
-    // preserve SSR markup and attach needed event handlers
-    // ensure all data for routes is prefetched on client before rendering
-    // attach any needed event handlers to the existing server rendered markup
-    // 'trigger' all '@provideHooks' decorated components
-    // The `@provideHooks` decorator allows you to define hooks for your custom lifecycle events,
-    // from matched routes, get all data from routes's components ('isAuthLoaded', 'isInfoLoaded'. etc.)
-    // 'trigger' function ('server' && 'client') will initiate 'fetch' event for components with '@provideHooks' decorator
-    // for initial load, components App && Home. only App - '@@redial-hooks': {fetch: [Function: fetch]}
-  
-    // Define locals to be provided to all lifecycle hooks (@provideHooks)
-    // const triggerLocals = {
-    //   match,
-    //   params,
-    //   history,
-    //   location: history.location
-    // };
-  
-    // Wait for async data fetching to complete, then continue to render
-    // Don't fetch data for initial route, server has already done the work:
-    // console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__PRELOADED__ ??: ', window.__PRELOADED__)
-    // if (window.__PRELOADED__) {
-    //   // Delete initial data so that subsequent data fetches can occur:
-    //   delete window.__PRELOADED__;
-    // } else {
-    //   // Fetch mandatory data dependencies for 2nd route change onwards:
-    //   await trigger('fetch', components, triggerLocals);
-    // }
-  
-    // await trigger('fetch', components, triggerLocals);
-    // Fetch deferred, client-only data dependencies:
-    // await trigger('defer', components, triggerLocals);
-  
-    // server-rendered markup ('ReactDOMServer.renderToString()') sent here
-    // 'ReactDOM.hydrate()' preserves server-sent server-rendered markup
-    // (allows for a very performant first-load experience)
-  
-    // if (window.__PRELOADED__) {
-    //   // Delete initial data so that subsequent data fetches can occur:
-    //   delete window.__PRELOADED__;
-    // } else {
-    //   // Fetch mandatory data dependencies for 2nd route change onwards:
-    //   await trigger('fetch', components, triggerLocals);
-    // }
-    // await trigger('defer', components, triggerLocals);
-
     ReactDOM.hydrate(
       <AppContainer>
         <Provider store={store} >

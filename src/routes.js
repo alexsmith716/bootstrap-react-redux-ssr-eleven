@@ -19,7 +19,7 @@ import Register from './containers/Register/Loadable';
 //   },       
 //   wrapperDisplayName: 'UserIsAuthenticated'
 // });
-// 
+
 // const isNotAuthenticated = connectedReduxRedirect({
 //   redirectPath: '/',
 //   authenticatedSelector: state => {

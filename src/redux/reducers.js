@@ -9,13 +9,13 @@ import temperatureCalculator from './modules/temperatureCalculator';
 import filterableTable from './modules/filterableTable';
 // import auth from './modules/auth';
 // import notifs from './modules/notifs';
-// import info from './modules/info';
+import info from './modules/info';
 // import online from './modules/online';
 
 export { default as initialState } from './initial-state';
 
 // state shape
-export default function rootReducer(history) {
+export default function rootReducer() {
   return {
     online: (v = true) => v,
     counter,
@@ -36,9 +36,6 @@ export default function rootReducer(history) {
       AboutTwo1: temperatureCalculator,
       AboutTwo2: temperatureCalculator,
     }),
-    // // auth,
-    // notifs,
-    // info,
-    // online,
+    info
   };
 }
