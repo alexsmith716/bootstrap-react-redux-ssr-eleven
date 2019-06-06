@@ -1,18 +1,20 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+ import { createPersistoid, persistCombineReducers, REGISTER } from 'redux-persist';
 import clientMiddleware from './clientMiddleware';
 import createRootReducer from './reducers';
 // import notify from 'redux-notify';
-// import events from './events';
 
 // ----------------------------------------------------------------------
 
-function combine(reducers) {
+function combine(reducers, persistConfig) {
+  if (persistConfig) {
+    return persistCombineReducers(persistConfig, reducers);
+  }
   return combineReducers(reducers);
-};
+}
 
 // ----------------------------------------------------------------------
 
-// Custom Logger Middleware
 function customLogger({ getState }) {
   return next => action => {
     console.log('>>>>>>>>>>>>>>>>> configureStore > customLogger() > will dispatch', action);
@@ -26,11 +28,29 @@ function customLogger({ getState }) {
   }
 };
 
-// encapsulate all state mutations in the store
+// ----------------------------------------------------------------------
 
-export default function configureStore({history, helpers, data}) {
+function getNoopReducers(reducers, data) {
+  if (!data) {
+    return {};
+  }
 
-  // const middleware = [clientMiddleware(helpers)];
+  return Object.keys(data).reduce((accu, key) => {
+    if (reducers[key]) {
+      return accu;
+    }
+
+    return {
+      ...accu,
+      [key]: (state = data[key]) => state
+    };
+  }, {});
+}
+
+// ----------------------------------------------------------------------
+
+export default function configureStore({ data, helpers, persistConfig }) {
+
   const middleware = [clientMiddleware(helpers)];
 
   if (__CLIENT__ && __DEVELOPMENT__) {
@@ -38,12 +58,7 @@ export default function configureStore({history, helpers, data}) {
   }
 
   // ----------------------------------------------------------------------
-  // middleware.push(notify(events));
 
-  // logger must be the last middleware in chain
-  // collapsed: (takes a Boolean or optionally a Function that receives 'getState' 
-  //             function for accessing current store state and 'action' object as parameters. 
-  //             Returns 'true' if the log group should be collapsed, 'false' otherwise.)
   if (__CLIENT__ && __DEVELOPMENT__) {
     const logger = require('redux-logger').createLogger({collapsed: true}); // custom options
     middleware.push(logger);
@@ -63,15 +78,24 @@ export default function configureStore({history, helpers, data}) {
     ]);
   }
 
-  const finalEnhancer = compose(...enhancers);
+  const r = __CLIENT__ && __DEVTOOLS__ && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : v => v;
+  const finalCreateStore = createStore(compose(...enhancers, r));
+
+  const reducers = createRootReducer();
+
+  const noopReducers = getNoopReducers(reducers, data);
+
+  const store = finalCreateStore(combine({ ...noopReducers, ...reducers }, persistConfig), data);
 
   // ----------------------------------------------------------------------
 
-  const store = createStore(
-    combine(createRootReducer(history)),
-    data,
-    finalEnhancer
-  )
+  if (persistConfig) {
+    const persistoid = createPersistoid(persistConfig);
+    store.subscribe(() => {
+      persistoid.update(store.getState());
+    });
+    store.dispatch({ type: REGISTER });
+  }
 
   // ----------------------------------------------------------------------
 
@@ -79,7 +103,7 @@ export default function configureStore({history, helpers, data}) {
     console.log('>>>>>>>>>>>>>>>>>>> configureStore() > YES MODULE.HOT <<<<<<<<<<<<<<<<<');
     module.hot.accept('./reducers', () => {
       let reducer = require('./reducers').default;
-      reducer = combine(reducer(history));
+      reducer = combine((reducer.__esModule ? reducer.default : reducer), persistConfig);
       store.replaceReducer(reducer);
     });
   } else {

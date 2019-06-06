@@ -115,12 +115,16 @@ export default ({ clientStats }) => async (req, res) => {
   };
 
   const store = configureStore({
-    history,
-    helpers: providers,
-    data: preloadedState
+    data: preloadedState,
+    helpers: providers
   });
 
   console.log('>>>>>>>>>>>>>>>> SERVER > store: ', store);
+
+  function hydrate(a) {
+    res.write('<!doctype html>');
+    ReactDOM.renderToNodeStream(<Html assets={a} store={store} />).pipe(res);
+  }
 
   // store.dispatch(actions.notifs.send({ text: 'Dispatched Message action from server...', type: message.types.success }));
 
@@ -134,6 +138,7 @@ export default ({ clientStats }) => async (req, res) => {
 
     // prefetch all data for set of routes on server before render
     const triggerLocals = {
+      ...providers,
       store,
       match,
       params,
@@ -141,6 +146,13 @@ export default ({ clientStats }) => async (req, res) => {
       location: history.location
     };
 
+    // define and trigger your own custom route-level lifecycle hooks
+    // '@provideHooks' decorator allows defining hooks for custom lifecycle events, 
+    //      returning promises if any asynchronous operations need to be performed
+    // ensure that all data for a set of routes is prefetched on the server before attempting to render
+    // trigger function: initiate an event for an arbitrary array of components
+    // Wait for async data fetching to complete, then render
+    // returns a promise
     await trigger('fetch', components, triggerLocals);
 
     const context = {};
@@ -161,6 +173,7 @@ export default ({ clientStats }) => async (req, res) => {
 
     // ------------------------------------------------------------------------------------------------------
 
+    // 'flushChunks' and 'flushFiles' called immediately after ReactDOMServer.renderToString
     const assets = flushChunks(clientStats, { chunkNames: flushChunkNames() });
 
     // console.log('>>>>>>>>>>>>>>>>> SERVER > flushChunks > JS: ', assets.Js);
@@ -192,13 +205,8 @@ export default ({ clientStats }) => async (req, res) => {
 
     // console.log('>>>>>>>>>>>>>>>>> SERVER > __DISABLE_SSR__:', __DISABLE_SSR__);
 
-    function hydrate() {
-      res.write('<!doctype html>');
-      ReactDOM.renderToNodeStream(<Html assets={assets} store={store} />).pipe(res);
-    }
-
     if (__DISABLE_SSR__) {
-      return hydrate();
+      return hydrate(assets);
     }
 
     // ===============================================================================
@@ -232,6 +240,6 @@ export default ({ clientStats }) => async (req, res) => {
   } catch (error) {
     console.log('>>>>>>>>>>>>>>>> SERVER > APP LOADER > TRY > ERROR > error: ', error);
     res.status(500);
-    hydrate();
+    hydrate(flushChunks(clientStats, { chunkNames: flushChunkNames() }));
   }
 };

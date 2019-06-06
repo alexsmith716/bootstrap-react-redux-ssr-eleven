@@ -6,6 +6,10 @@ export default {
     isMobile: null,
   },
 
+  info: {
+    loaded: false,
+  },
+
   counter: {
     countPreloadedState: null,
     countMultireducer: 0,

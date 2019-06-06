@@ -1,11 +1,13 @@
+// Actions
+// -------------------
 const LOAD = 'redux-example/info/LOAD';
 const LOAD_SUCCESS = 'redux-example/info/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux-example/info/LOAD_FAIL';
 
-const initialState = {
-  loaded: false
-};
+import initialState from '../initial-state';
 
+// Reducer
+// -------------------
 export default function info(state = initialState, action = {}) {
 
   switch (action.type) {
@@ -13,13 +15,13 @@ export default function info(state = initialState, action = {}) {
     case LOAD:
       return {
         ...state,
-        loading: true
+        isLoading: true
       };
 
     case LOAD_SUCCESS:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         loaded: true,
         data: action.result
       };
@@ -27,7 +29,7 @@ export default function info(state = initialState, action = {}) {
     case LOAD_FAIL:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         loaded: false,
         error: action.error
       };
@@ -37,14 +39,17 @@ export default function info(state = initialState, action = {}) {
   }
 }
 
+// Actions (action creators)
+// -------------------
 export function isLoaded(globalState) {
   return globalState.info && globalState.info.loaded;
 }
 
-export function load() {
-  console.log('>>>>>>>>>>>>>>>>> Redux > Modules > INFO > load() <<<<<<<<<<<<<<<<<<<<<<<');
+export function load(value) {
+  console.log('>>>>>>>>>>>>>>>> info > reducer > Action > load()> value: ', value);
+  let v = 'https://www.metaweather.com/api/location/2459115/';
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: ({ client }) => client.get('/load-info')
+    promise: ({ client }) => client.get(v)
   };
-}
+};
