@@ -18,8 +18,6 @@ import asyncMatchRoutes from './utils/asyncMatchRoutes';
 
 import { Router, StaticRouter } from 'react-router';
 
-import { ReduxAsyncConnect } from './components';
-
 import { renderRoutes } from 'react-router-config';
 
 import ReactDOM from 'react-dom/server';
@@ -115,6 +113,7 @@ export default ({ clientStats }) => async (req, res) => {
   };
 
   const store = configureStore({
+    history,
     data: preloadedState,
     helpers: providers
   });
@@ -162,9 +161,7 @@ export default ({ clientStats }) => async (req, res) => {
       <Provider store={store} {...providers}>
         <Router history={history}>
           <StaticRouter location={req.originalUrl} context={context}>
-            <ReduxAsyncConnect routes={routes} >
-              {renderRoutes(routes)}
-            </ReduxAsyncConnect>
+            {renderRoutes(routes)}
           </StaticRouter>
         </Router>
       </Provider>

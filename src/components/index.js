@@ -6,7 +6,7 @@
 // export MiniInfoBar from './MiniInfoBar/MiniInfoBar';
 // export Notifs from './Notifs/Notifs';
 // export Provider from './Provider/Provider';
-export ReduxAsyncConnect from './ReduxAsyncConnect/ReduxAsyncConnect';
+export RouterTrigger from './RouterTrigger/RouterTrigger';
 // export RegisterForm from './RegisterForm/RegisterForm';
 
 // export AxiosComponentLoaderBasic from './AxiosComponentLoaderBasic';
