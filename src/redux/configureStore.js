@@ -78,15 +78,18 @@ export default function configureStore({ data, helpers, persistConfig }) {
     ]);
   }
 
-  // const r = __CLIENT__ && __DEVTOOLS__ && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : v => v;
+  const r = __CLIENT__ && __DEVTOOLS__ && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : v => v;
 
-  const finalCreateStore = compose(...enhancers)(createStore);
+  // store enhancer is a higher-order function that composes a store creator to return a new, enhanced store creator
+  // a store is not an instance, but rather a plain-object collection of functions
+  // a store is not an instance so copies can be easily created and modified without mutating the original store
+  const finalEnhancer = compose(...enhancers)(createStore);
 
   const reducers = createRootReducer();
 
   const noopReducers = getNoopReducers(reducers, data);
 
-  const store = finalCreateStore(combine({ ...noopReducers, ...reducers }, persistConfig), data);
+  const store = finalEnhancer(combine({ ...noopReducers, ...reducers }, persistConfig), data);
 
   // ----------------------------------------------------------------------
 
