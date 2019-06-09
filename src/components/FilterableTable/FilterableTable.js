@@ -30,7 +30,7 @@ import promiseGenerator from '../../utils/promiseGenerator';
     inStockOnly: state.filterableTableCollection[as].inStockOnly,
   }),
   // (dispatch, { as }) => bindActionCreators(filterableTableActions, dispatch, as)
-  (dispatch, { as }) => bindActionCreators( { ...filterableTableActions }, dispatch, as)
+  (dispatch, { as }) => bindActionCreators({ ...filterableTableActions }, dispatch, as)
 )
 
 class FilterableTable extends Component {
@@ -87,26 +87,34 @@ class FilterableTable extends Component {
     // if (this.state.externalData === null) {
     //   this._loadAsyncData(this.props.id);
     // }
+
     const { error, errorResponse, isLoading, fetchedData, dropDownOptionSelected, load } = this.props;
+
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() <<<<<<<<<<<<<<: ', this.props.description);
     console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > this.props.dropDownOptionSelected: ', dropDownOptionSelected);
+
     if (fetchedData === null && !error && isLoading) {
       console.log('11111111111111111111 ####################################### 11111111111111111111');
       load({ request: dropDownOptionSelected });
     }
+
     // loading LOAD_FAIL
     if (error && !isLoading) {
       console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_FAIL: ', errorResponse.message);
     }
+
     // loading LOAD_SUCCESS
     if (!error && !isLoading && fetchedData !== null) {
+
       const result = promiseGenerator();
       let p  = result.next().value;
+
       p.then(r => {
         console.log('>>>>>>>>>>>>>>>> FilterableTable > promiseGenerator() > result.next().value: ', p);
         console.log('>>>>>>>>>>>>>>>> FilterableTable > promiseGenerator() > resolve: ', r);
         return result.next(r)
       });
+
       return enumerateObjectValues(fetchedData)
         .then(response => {
           console.log('>>>>>>>>>>>>>>>> FilterableTable > componentDidUpdate() > SELECTED_OPTION LOAD LOAD_SUCCESS > enumerateObjectValues > returned: ', response);
