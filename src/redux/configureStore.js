@@ -30,19 +30,22 @@ function combine(reducers, persistConfig) {
 // * 'replaceReducer': swaps the internal reducer function reference, 
 //    and dispatchs an action to help any newly-added slice reducers initialize themselves
 
+// *  on-demand, add the reducer for a websocket connected chat component to the store 
+
 // inject reducer function
 // This function adds the async reducer, and creates a new combined reducer
-export function inject(store, reducers, persistConfig) {
-  Object.keys(reducers).forEach(name => {
-    const reducer = reducers[name];
-
-    if (!store.asyncReducers[name]) {
-      store.asyncReducers[name] = reducer.__esModule ? reducer.default : reducer;
-    }
-  });
-
-  store.replaceReducer(combine(createReducers(store.asyncReducers), persistConfig));
-}
+// ----------------------------------------------------------------------
+// export function inject(store, reducers, persistConfig) {
+//   Object.keys(reducers).forEach(name => {
+//     const reducer = reducers[name];
+// 
+//     if (!store.asyncReducers[name]) {
+//       store.asyncReducers[name] = reducer.__esModule ? reducer.default : reducer;
+//     }
+//   });
+// 
+//   store.replaceReducer(combine(createReducers(store.asyncReducers), persistConfig));
+// }
 
 // ----------------------------------------------------------------------
 
@@ -151,6 +154,9 @@ export default function configureStore({ data, helpers, persistConfig }) {
 
   // ----------------------------------------------------------------------
 
+  store.asyncReducers = {};
+  // store.inject = _reducers => inject(store, _reducers, persistConfig);
+
   if (persistConfig) {
     const persistoid = createPersistoid(persistConfig);
     store.subscribe(() => {
@@ -165,7 +171,7 @@ export default function configureStore({ data, helpers, persistConfig }) {
     console.log('>>>>>>>>>>>>>>>>>>> configureStore() > YES MODULE.HOT <<<<<<<<<<<<<<<<<');
     module.hot.accept('./reducers', () => {
       let reducer = require('./reducers');
-      reducer = combine((reducer.__esModule ? reducer.default : reducer), persistConfig);
+      reducer = combine((reducer.__esModule ? reducer.default : reducer)(store.asyncReducers), persistConfig);
       store.replaceReducer(reducer);
     });
   } else {
