@@ -20,6 +20,32 @@ function combine(reducers, persistConfig) {
 
 // ----------------------------------------------------------------------
 
+// * https://redux.js.org/recipes/code-splitting
+// * split up the app code into multiple JS bundles that can be loaded on-demand
+// * 'code splitting', helps to increase app performance by reducing 
+//    the size of the initial JS payload that must be fetched
+// * to code split, reducers are dynamically add to the store
+// * Redux store exposes a 'replaceReducer' function, 
+//    which replaces the current active root reducer function with a new root reducer function
+// * 'replaceReducer': swaps the internal reducer function reference, 
+//    and dispatchs an action to help any newly-added slice reducers initialize themselves
+
+// inject reducer function
+// This function adds the async reducer, and creates a new combined reducer
+export function inject(store, reducers, persistConfig) {
+  Object.keys(reducers).forEach(name => {
+    const reducer = reducers[name];
+
+    if (!store.asyncReducers[name]) {
+      store.asyncReducers[name] = reducer.__esModule ? reducer.default : reducer;
+    }
+  });
+
+  store.replaceReducer(combine(createReducers(store.asyncReducers), persistConfig));
+}
+
+// ----------------------------------------------------------------------
+
 function customLogger({ getState }) {
   return next => action => {
     console.log('>>>>>>>>>>>>>>>>> configureStore > customLogger() > will dispatch', action);
@@ -38,11 +64,11 @@ function customLogger({ getState }) {
 // if code requires some function passed to it, otherwise it will toss an error:
 
 // ( () => {}; )                            // empty arrow function
-// var noop = function () {};               // Define your own noop in ES3 or ES5
-// const noop = () => {};                   // OR Define your own noop in ES6
-// setTimeout(noop, 10000);                 // Using the predefined noop 
-// setTimeout(function () {} , 10000);      // Using directly in ES3 or ES5
-// setTimeout(() => {} , 10000);            // Using directly in ES6 as Lambda (arrow function)
+// var noop = function () {};
+// const noop = () => {};
+// setTimeout(noop, 10000);
+// setTimeout(function () {} , 10000);
+// setTimeout(() => {} , 10000);
 // setTimeout(Function(), 10000);
 // setTimeout(Function.prototype, 10000);
 
