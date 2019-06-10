@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 
-@connect((state, props) => ({ notifs: state.notifs[props.namespace] || [] }))
+@connect(
+  (state, { namespace }) => ({ 
+    notifs: state.notifs[namespace] || [] 
+  })
+)
+
 
 class Notifs extends Component {
 
