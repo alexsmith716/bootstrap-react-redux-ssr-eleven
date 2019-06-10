@@ -216,10 +216,12 @@ export default ({ clientStats }) => async (req, res) => {
       return res.redirect(301, context.url);
     }
 
-    const locationState = store.getState().router.location;
+    // ------------------------------------------------------------------------------------------------------
 
-    if (decodeURIComponent(req.originalUrl) !== decodeURIComponent(locationState.pathname + locationState.search)) {
-      return res.redirect(301, locationState.pathname);
+    const { location } = history;
+
+    if (decodeURIComponent(req.originalUrl) !== decodeURIComponent(location.pathname + location.search)) {
+      return res.redirect(301, location.pathname);
     }
 
     // ------------------------------------------------------------------------------------------------------

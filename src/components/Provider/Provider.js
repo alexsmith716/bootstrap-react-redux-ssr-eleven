@@ -28,15 +28,13 @@
 
 import PropTypes from 'prop-types';
 import { Provider as ReduxProvider } from 'react-redux';
-
 import { withContext } from 'recompose';
 
 const Provider = withContext(
   {
-    store: PropTypes.objectOf(PropTypes.any).isRequired,
     app: PropTypes.objectOf(PropTypes.any).isRequired
   },
-  ({ app, store }) => ({ app, store })
+  ({ app }) => ({ app })
 )(ReduxProvider);
 
 export default Provider;
