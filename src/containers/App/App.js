@@ -1,21 +1,32 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+import { provideHooks } from 'redial';
 import { withRouter } from 'react-router';
-
 import { renderRoutes } from 'react-router-config';
-
 import Helmet from 'react-helmet';
 import qs from 'qs';
-
 import { Link } from 'react-router-dom';
 
+import { isLoaded as isInfoLoaded, load as loadInfo } from '../../redux/modules/info';
+// import { Notifs, InfoBar } from '../../components';
 import config from '../../../config/config';
 
-console.log('>>>>>>>>>>>>>>>>> APP > ES > CONFIG >>>>>>>>>>>>>>>>>>>>>>>>: ', config);
+@provideHooks({
+  fetch: async ({ store: { dispatch, getState } }) => {
+    if (!isInfoLoaded(getState())) {
+      const v = await dispatch(loadInfo()).catch(() => null);
+      console.log('>>>>>>>>>>>>>>>>> APP > dispatch(loadInfo()) >>>>>>>>>>>>>>>>>>>>>>>>: ', getState());
+    }
+  }
+})
 
-// import { withStore } from '../../../hoc';
+// @connect(
+//   state => ({
+//     notifs: state.notifs
+//   }),
+// )
 
 // --------------------------------------------------------------------------
 // HOC: apply HOCs outside the component definition so that the resulting component is created only once. 
@@ -37,8 +48,6 @@ console.log('>>>>>>>>>>>>>>>>> APP > ES > CONFIG >>>>>>>>>>>>>>>>>>>>>>>>: ', co
 
 @withRouter
 
-// @withStore
-
 // --------------------------------------------------------------------------
 
 // ES6 does not support creating properties with 'static'
@@ -49,9 +58,8 @@ class App extends Component {
   static propTypes = {
     route: PropTypes.objectOf(PropTypes.any).isRequired,
     location: PropTypes.objectOf(PropTypes.any).isRequired,
+    // user: PropTypes.shape({ email: PropTypes.string }),
     // notifs: PropTypes.shape({global: PropTypes.array}).isRequired,
-    // pushState: PropTypes.func.isRequired,
-    // store: PropTypes.objectOf(PropTypes.any).isRequired
   };
 
   // If contextTypes is not defined, then context will be an empty object
@@ -75,11 +83,10 @@ class App extends Component {
 
   componentDidUpdate(prevProps) {
     console.log('>>>>>>>>>>>>>>>> APP > componentDidUpdate() <<<<<<<<<<<<<<');
-    const { location } = this.props;
-
-    if (location !== prevProps.location) {
-      window.scrollTo(0, 0);
-    }
+    // const { location } = this.props;
+    // if (location.pathname !== prevProps.location.pathname) {
+    //   window.scrollTo(0, 0);
+    // }
   }
 
   static getDerivedStateFromProps(props, state) {

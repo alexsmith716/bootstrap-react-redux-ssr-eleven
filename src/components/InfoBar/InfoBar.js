@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { load } from '../../redux/modules/info';
 
-@connect(state => ({ info: state.info.data }), { load })
+@connect(
+  state => ({ info: state.info.data }),
+  { load }
+)
 
 class InfoBar extends Component {
-
-  // define properties and methods of class 'InfoBar'
 
   static propTypes = {
     info: PropTypes.shape({
@@ -17,16 +18,13 @@ class InfoBar extends Component {
     load: PropTypes.func.isRequired
   };
 
-  // following default data flow
-  // ES7 static property initializer
-  // @babel/plugin-proposal-class-properties
   static defaultProps = {
     info: null
   };
 
   render() {
 
-    const { info, load } = this.props; // eslint-disable-line no-shadow
+    const { info, load } = this.props;
     const styles = require('./scss/InfoBar.scss');
 
     // console.log('>>>>>>>>>>>>>>>> InfoBar > render() > info:', info);

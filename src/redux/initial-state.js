@@ -2,6 +2,8 @@
 
 export default {
 
+  notifs: {},
+
   device: {
     isMobile: null,
   },

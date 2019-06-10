@@ -87,4 +87,3 @@ export default function* promiseGenerator() {
   const result = yield startingTask();
   console.log('################### promiseGenerator() > yield startingTask() > result: ', result);
 }
-

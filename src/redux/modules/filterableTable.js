@@ -19,7 +19,6 @@ export default function reducer(state = initialState.filterableTable, action = {
   switch (action.type) {
 
     case SELECTED_OPTION:
-      console.log('3333333333333333333 ####################################### 3333333333333333333a');
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > SELECTED_OPTION > state: ', state);
       return {
         ...state,
@@ -33,7 +32,6 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     case LOAD:
-      console.log('3333333333333333333 ####################################### 3333333333333333333b');
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD > state: ', state);
       return {
         ...state,
@@ -41,7 +39,6 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     case LOAD_SUCCESS:
-      console.log('3333333333333333333 ####################################### 3333333333333333333bb');
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > state: ', state);
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > action: ', action);
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > LOAD_SUCCESS > action.result: ', action.result);
@@ -65,7 +62,6 @@ export default function reducer(state = initialState.filterableTable, action = {
       };
 
     default:
-      console.log('3333333333333333333 ####################################### 33333333333333333330000000');
       console.log('>>>>>>>>>>>>>>>> filterableTable > reducer > SWITCH > action.type > default > state: ', state);
       return state;
   }
@@ -82,7 +78,6 @@ export function selectedOption(value) {
 };
 
 export function load(value) {
-  console.log('222222222222222222222 ####################################### 22222222222222222222');
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: ({ client }) => client.get(value.request)
