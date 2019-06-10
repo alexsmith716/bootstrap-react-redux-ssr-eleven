@@ -151,6 +151,8 @@ const providers = {
     window.React = React;
   }
 
+  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > process.env.NODE_ENV: ', process.env.NODE_ENV);
+
   // ==============================================================================================
 
   if (__DEVTOOLS__ && !window.__REDUX_DEVTOOLS_EXTENSION__) {
