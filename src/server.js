@@ -216,6 +216,8 @@ export default ({ clientStats }) => async (req, res) => {
       return res.redirect(301, context.url);
     }
 
+    // ------------------------------------------------------------------------------------------------------
+
     const { location } = history;
 
     if (decodeURIComponent(req.originalUrl) !== decodeURIComponent(location.pathname + location.search)) {
