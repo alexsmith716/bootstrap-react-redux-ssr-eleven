@@ -86,7 +86,6 @@ module.exports = {
       '@babel/runtime-corejs3/helpers/typeof.js',
       '@babel/runtime-corejs3/regenerator/index.js',
 
-      'react-hot-loader',
       'jquery',
       'react',
       'react-dom',
