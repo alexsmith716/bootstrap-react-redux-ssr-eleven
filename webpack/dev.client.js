@@ -72,6 +72,13 @@ const handler = (percentage, message, ...args) => {
 //                      * In 'webpack-dev-server' and 'webpack-dev-middleware' watch mode is enabled by default
 // ==============================================================================================
 
+// https://github.com/hot-loader/react-dom
+// {
+//   test: /\.jsx?$/,
+//   use: 'react-hot-loader/webpack',
+//   include: /node_modules/
+// },
+
 const webpackConfig = {
 
   context: path.resolve(__dirname, '..'),
@@ -268,6 +275,7 @@ const webpackConfig = {
     hints: false
   },
 
+  // https://webpack.js.org/configuration/
   resolve: {
     // modules: [ 'client', 'node_modules' ],
     extensions: ['.json', '.js', '.jsx', '.scss'],

@@ -93,7 +93,7 @@ module.exports = {
       'react-helmet',
       'react-redux',
       'react-router',
-      'redux',
+      'redux'
     ]
   },
 

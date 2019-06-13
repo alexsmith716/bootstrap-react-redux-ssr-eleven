@@ -15,7 +15,7 @@
   "plugins": [
     ["@babel/plugin-transform-runtime",{"corejs": {"version": 3,"proposals": true}}],
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
-    ["react-hot-loader/babel",{"safetyNet": false}],
+    "react-hot-loader/babel",
     "universal-import",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-syntax-import-meta",
