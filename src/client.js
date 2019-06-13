@@ -1,6 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+import { AppContainer as HotEnabler } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router';
@@ -8,7 +9,6 @@ import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import { trigger } from 'redial';
 import {createBrowserHistory} from 'history';
-import { AppContainer as HotEnabler } from 'react-hot-loader';
 // import { AppContainer  } from 'react-hot-loader';
 import localForage from 'localforage';
 import { getStoredState } from 'redux-persist';

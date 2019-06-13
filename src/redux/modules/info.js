@@ -55,7 +55,7 @@ export function load() {
   console.log('>>>>>>>>>>>>>>>> info > redux > Action > load() <<<<<<<<<<<<<<<<<<');
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: () => mockAPI(() => getDateNow(), 3000)
+    promise: () => mockAPI(() => getDateNow(), 3000 )
   };
 };
 
