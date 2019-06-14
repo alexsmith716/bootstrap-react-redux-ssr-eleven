@@ -15,9 +15,13 @@ import config from '../../../config/config';
 
 @provideHooks({
   fetch: async ({ store: { dispatch, getState } }) => {
+    const i = isInfoLoaded(getState())
+    console.log('>>>>>>>>>>>>>>>>> APP > isInfoLoaded(getState()) ???? >>>>>>>>>>>>>>>>>>>>>>>>i: ', i);
     if (!isInfoLoaded(getState())) {
       const v = await dispatch(loadInfo()).catch(() => null);
-      console.log('>>>>>>>>>>>>>>>>> APP > dispatch(loadInfo()) >>>>>>>>>>>>>>>>>>>>>>>>: ', getState());
+      console.log('>>>>>>>>>>>>>>>>> APP > dispatch(loadInfo()) 1111>>>>>>>>>>>>>>>>>>>>>>>>v: ', v);
+    } else {
+      console.log('>>>>>>>>>>>>>>>>> APP > dispatch(loadInfo()) 2222>>>>>>>>>>>>>>>>>>>>>>>>i: ', i);
     }
   }
 })
@@ -81,7 +85,7 @@ class App extends Component {
   }
 
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     console.log('>>>>>>>>>>>>>>>> APP > componentDidUpdate() <<<<<<<<<<<<<<');
     // const { location } = this.props;
     // if (location.pathname !== prevProps.location.pathname) {

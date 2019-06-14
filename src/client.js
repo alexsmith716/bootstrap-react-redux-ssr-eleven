@@ -9,7 +9,6 @@ import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import { trigger } from 'redial';
 import {createBrowserHistory} from 'history';
-// import { AppContainer  } from 'react-hot-loader';
 import localForage from 'localforage';
 import { getStoredState } from 'redux-persist';
 
@@ -135,11 +134,7 @@ const providers = {
     module.hot.accept('./routes', () => {
       // const nextRoutes = require('./routes').default;
       const nextRoutes = require('./routes');
-      console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > MODULE.HOT! > nextRoutes: ', nextRoutes);
-      hydrate(nextRoutes.__esModule ? nextRoutes.default : nextRoutes).catch(err => {
-      // hydrate(nextRoutes).catch(err => {
-        console.error('>>>>>>>>>>>>>>>>>>> Error on routes reload:', err);
-      });
+      hydrate(nextRoutes.__esModule ? nextRoutes.default : nextRoutes)
     });
   } else {
     console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > NO MODULE.HOT! <<<<<<<<<<<<<<');
