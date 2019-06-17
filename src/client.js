@@ -129,10 +129,13 @@ const providers = {
 
   // ==============================================================================================
 
+  // https://webpack.js.org/api/hot-module-replacement/
+  // https://webpack.js.org/concepts/hot-module-replacement/
+  // https://webpack.js.org/guides/hot-module-replacement/
+
   if (module.hot) {
     console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > MODULE.HOT! <<<<<<<<<<<<<<<<<');
     module.hot.accept('./routes', () => {
-      // const nextRoutes = require('./routes').default;
       const nextRoutes = require('./routes');
       hydrate(nextRoutes.__esModule ? nextRoutes.default : nextRoutes)
     });
