@@ -32,6 +32,7 @@ function startingTask() {
 // }
 
 export function mockAPI(doWhat, delay) {
+  console.log('################### mockAPI() > mockAPI <<<<<<<<<<<<<<<<<<<<<<<,');
   return new Promise(( resolve ) => {
     setTimeout( () => resolve( doWhat() ), delay);
   });

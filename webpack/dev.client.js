@@ -72,13 +72,6 @@ const handler = (percentage, message, ...args) => {
 //                      * In 'webpack-dev-server' and 'webpack-dev-middleware' watch mode is enabled by default
 // ==============================================================================================
 
-// https://github.com/hot-loader/react-dom
-// {
-//   test: /\.jsx?$/,
-//   use: 'react-hot-loader/webpack',
-//   include: /node_modules/
-// },
-
 const webpackConfig = {
 
   context: path.resolve(__dirname, '..'),
@@ -95,9 +88,9 @@ const webpackConfig = {
   entry: {
     main: [
       'react-devtools',
-      `webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr&timeout=20000&reload=true`,
+      `webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr`,
       // `webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr&timeout=20000&reload=true`,
-      './src/theme/scss/bootstrap/bootstrap.global.scss',
+      // './src/theme/scss/bootstrap/bootstrap.global.scss',
       'bootstrap',
       './src/client.js'
     ]
