@@ -11,6 +11,8 @@ import Login from './containers/Login/Loadable';
 import Register from './containers/Register/Loadable';
 // import LoginSuccess from './containers/LoginSuccess/Loadable';
 
+import './theme/scss/bootstrap/bootstrap.global.scss';
+
 // const isAuthenticated = connectedReduxRedirect({
 //   redirectPath: '/login',
 //   authenticatedSelector: state => {

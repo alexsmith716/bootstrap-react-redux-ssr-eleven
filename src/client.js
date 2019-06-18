@@ -119,8 +119,10 @@ const providers = {
     );
 
     if (dest.hasChildNodes()) {
+      console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > dest.hasChildNodes() > ReactDOM.hydrate()');
       ReactDOM.hydrate(element, dest);
     } else {
+      console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > !dest.hasChildNodes() > ReactDOM.render()');
       ReactDOM.render(element, dest);
     }
   };
@@ -129,9 +131,12 @@ const providers = {
 
   // ==============================================================================================
 
-  // https://webpack.js.org/api/hot-module-replacement/
   // https://webpack.js.org/concepts/hot-module-replacement/
+  // https://webpack.js.org/api/hot-module-replacement/
   // https://webpack.js.org/guides/hot-module-replacement/
+  // https://webpack.js.org/plugins/hot-module-replacement-plugin/
+  // https://webpack.js.org/guides/development/#using-webpack-dev-middleware
+  // https://github.com/webpack-contrib/webpack-hot-middleware
 
   if (module.hot) {
     console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > MODULE.HOT! <<<<<<<<<<<<<<<<<');
