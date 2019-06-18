@@ -81,19 +81,18 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
-              // localIdentName: '[name]__[local]__[hash:base64:5]',
-              getLocalIdent: (loaderContext, localIdentName, localName, options) => {
-                const fileName = path.basename(loaderContext.resourcePath)
-                if (fileName.indexOf('global.scss') !== -1) {
-                  return localName
-                } else {
-                  const name = fileName.replace(/\.[^/.]+$/, "")
-                  return generatedIdent(name, localName, loaderContext.resourcePath);
-                }
+              modules: {
+                getLocalIdent: (loaderContext, localIdentName, localName, options) => {
+                  if (path.basename(loaderContext.resourcePath).indexOf('global.scss') !== -1) {
+                    return localName;
+                  } else {
+                    return generatedIdent(path.basename(loaderContext.resourcePath).replace(/\.[^/.]+$/, ""), localName, loaderContext.resourcePath);
+                  }
+                },
+                mode: 'local',
               },
-              importLoaders: 2
-            }
+              importLoaders: 2,
+            },
           },
           {
             loader: 'resolve-url-loader',
@@ -143,18 +142,18 @@ module.exports = {
           {
             loader : 'css-loader',
             options: {
-              modules: true,
-              getLocalIdent: (loaderContext, localIdentName, localName, options) => {
-                const fileName = path.basename(loaderContext.resourcePath)
-                if (fileName.indexOf('global.css') !== -1) {
-                  return localName
-                } else {
-                  const name = fileName.replace(/\.[^/.]+$/, "")
-                  return generatedIdent(name, localName, loaderContext.resourcePath);
-                }
+              modules: {
+                getLocalIdent: (loaderContext, localIdentName, localName, options) => {
+                  if (path.basename(loaderContext.resourcePath).indexOf('global.scss') !== -1) {
+                    return localName;
+                  } else {
+                    return generatedIdent(path.basename(loaderContext.resourcePath).replace(/\.[^/.]+$/, ""), localName, loaderContext.resourcePath);
+                  }
+                },
+                mode: 'local',
               },
-              importLoaders: 2
-            }
+              importLoaders: 2,
+            },
           },
           {
             loader: 'resolve-url-loader',

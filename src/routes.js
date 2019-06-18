@@ -11,6 +11,7 @@ import Login from './containers/Login/Loadable';
 import Register from './containers/Register/Loadable';
 // import LoginSuccess from './containers/LoginSuccess/Loadable';
 
+// testing hmr ---------------------------------------
 import './theme/scss/bootstrap/bootstrap.global.scss';
 
 // const isAuthenticated = connectedReduxRedirect({
