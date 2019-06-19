@@ -90,8 +90,7 @@ const webpackConfig = {
       'react-devtools',
       `webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr`,
       // `webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr&timeout=20000&reload=true`,
-      // './src/theme/scss/bootstrap/bootstrap.global.scss', // testing hmr ---------------------------------------
-      // 'bootstrap',
+      'bootstrap',
       './src/client.js'
     ]
   },

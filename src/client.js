@@ -1,6 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+// make app capable of using hot reloading to make seamless changes
 import { AppContainer as HotEnabler } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
