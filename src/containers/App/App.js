@@ -117,7 +117,6 @@ class App extends Component {
     const { notifs, route } = this.props;
 
     const styles = require('./styles/App.scss');
-    const stylesCss = require('./css/AppCss1.css');
 
     // console.log('>>>>>>>>>>>>>>>> APP > render() <<<<<<<<<<<<<< !!STORE!!: ', this.props.store);
 
@@ -131,7 +130,7 @@ class App extends Component {
 
           <div className="container">
 
-            <Link to='/' className={`navbar-brand js-scroll-trigger ${styles.brand}`}>Election App</Link>
+            <Link to='/' className="navbar-brand js-scroll-trigger">Election App</Link>
 
             <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
@@ -230,7 +229,7 @@ class App extends Component {
 
                 <p className="color-orangered font-opensans-bold-webfont">This paragraph's '@font-face' is 'OpenSans-Bold-webfont' It is scoped Global.</p>
 
-                <p className={stylesCss.colorCrimsonCssLocal}>This paragraph's color is 'colorCrimsonCssLocal'. It is scoped Local fom 'AppCss1.css'.</p>
+                <p className={styles.colorCrimsonCssLocal}>This paragraph's color is 'colorCrimsonCssLocal'. It is scoped Local fom 'AppCss1.css'.</p>
 
                 <p className={styles.coloredText2Local}>This paragraph's color is 'coloredText2Local'. It is scoped Local fom 'AppScss2.scss'.</p>
 

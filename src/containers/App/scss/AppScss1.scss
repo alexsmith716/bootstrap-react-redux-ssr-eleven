@@ -2,10 +2,7 @@
 @import '../../sharedresources.scss';
 
 .app {
-  .brand {
-    color: #00BFFF;
-  }
-  nav :global(.fa) {
+  nav :global(.fas) {
     padding-top: 4px;
   }
 }

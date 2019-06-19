@@ -12,8 +12,12 @@ const http = require('http');
 const favicon = require('serve-favicon');
 // const mongoose = require('mongoose');
 const webpack = require('webpack');
+// express-style dev middleware for use with webpack bundles
+// allows for serving of the files emitted from webpack
 const webpackDevMiddleware = require('webpack-dev-middleware');
+// connect a browser client to a webpack server & receive updates
 const webpackHotMiddleware = require('webpack-hot-middleware');
+// hot update Webpack bundles on the server
 const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
 
 const config = {
@@ -187,19 +191,17 @@ const port = normalizePort(__DEVELOPMENT__ ? portNum : portNum);
 // https://github.com/webpack-contrib/webpack-hot-middleware
 
 // logLevel: 'silent',
-// stats: { colors: true },
 // watchOptions: {
 //   aggregateTimeout: 300,
 //   ignored: /node_modules/,
 //   poll: false
 // },
+// hot: true,
 
 const { publicPath } = clientConfigDev.output;
 
 const serverOptions = {
   lazy: false,
-  hot: true,
-  // stats: 'none',
   stats: { colors: true },
   serverSideRender: true,
   publicPath

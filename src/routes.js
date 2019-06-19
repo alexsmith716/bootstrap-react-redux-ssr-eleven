@@ -12,6 +12,7 @@ import Register from './containers/Register/Loadable';
 // import LoginSuccess from './containers/LoginSuccess/Loadable';
 
 // testing hmr ---------------------------------------
+// 00BFFF
 import './theme/scss/bootstrap/bootstrap.global.scss';
 
 // const isAuthenticated = connectedReduxRedirect({
