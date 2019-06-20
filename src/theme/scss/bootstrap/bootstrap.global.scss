@@ -8,14 +8,14 @@ $font-size-base: .875rem;
 $navbar-dark-color: #C6E2FF;
 $dropdown-bg: #FFFF00;
 $navbar-dark-active-color: #00BFFF;
-	
+
 @import "~bootstrap/scss/_functions.scss";
 @import "~bootstrap/scss/_variables.scss";
 @import "~bootstrap/scss/_mixins.scss";
-	
+
 $btn-primary-bg: adjust-hue(theme-color("primary"), +20deg);
 $dropdown-bg: darken($dropdown-bg, 20%);
-	
+
 @import "~bootstrap/scss/_root.scss";
 
 @import "~bootstrap/scss/_reboot.scss";
