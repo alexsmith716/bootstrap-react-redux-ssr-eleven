@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import { trigger } from 'redial';
 import {createBrowserHistory} from 'history';
+// asynchronous offline local storage
 import localForage from 'localforage';
 import { getStoredState } from 'redux-persist';
 
@@ -24,13 +25,23 @@ import './js/app';
 
 // =====================================================================
 
+// Local Storage > http://localhost:3000
+// localforage/persist:root: "{\"counter\":\"{\\\"countPreloadedState\\\":42,\\\"countMultireducer\\\":0}\",\"device\":\"{\\\"isMobile\\\":false}\",\"info\":\"{\\\"notifs\\\":{},\\\"device\\\":{\\\"isMobile\\\":null},\\\"info\\\":{\\\"loaded\\\":false},\\\"counter\\\":{\\\"countPreloadedState\\\":null,\\\"countMultireducer\\\":0},\\\"filterableTable\\\":{\\\"filterText\\\":\\\"\\\",\\\"inStockOnly\\\":false,\\\"loaded\\\":false,\\\"dropDownOptionSelected\\\":\\\"\\\",\\\"error\\\":false,\\\"errorResponse\\\":{\\\"message\\\":\\\"\\\",\\\"documentation_url\\\":\\\"\\\"},\\\"isLoading\\\":false,\\\"fetchedData\\\":null,\\\"didInvalidate\\\":false},\\\"temperatureCalculator\\\":{\\\"temperature\\\":\\\"\\\",\\\"scale\\\":\\\"c\\\"},\\\"isLoading\\\":false,\\\"loaded\\\":true,\\\"data\\\":1561053136395}\"}"
 const persistConfig = {
   key: 'root',
   storage: localForage,
+  // redux-persist:
+  // inboundState:  the state being rehydrated from storage
+  // originalState: the state before the REHYDRATE action
   stateReconciler(inboundState, originalState) {
+    // preloadedState from window object
     return originalState;
   },
-  // whitelist: ['info']
+  // redux-persist:
+  // blacklist what state will not be persisted
+  // blacklist: ['notifs'],
+  // whitelist what state will be persisted
+  whitelist: ['device', 'info', 'counter', 'filterableTable', 'temperatureCalculator']
 };
 
 const dest = document.getElementById('content');
@@ -49,11 +60,13 @@ const providers = {
 
 (async () => {
 
+  // redux-persist:
+  // delays rendering of app UI until persisted state has been retrieved and saved to redux
   const preloadedState = await getStoredState(persistConfig);
 
   console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > preloadedState: ', preloadedState);
-  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__PRELOADED__: ', window.__PRELOADED__);
-  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__data: ', window.__data);
+  // console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__PRELOADED__: ', window.__PRELOADED__);
+  // console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > window.__data: ', window.__data);
 
   // const preloadedState = window.__data;
   // const preloadedState = await getStoredState(persistConfig);
@@ -73,7 +86,8 @@ const providers = {
     persistConfig
   });
 
-  //console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > history: ', history);
+  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > HISTORY: ', history);
+  console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > STORE: ', store);
 
   // ======================================================================================
 
@@ -91,16 +105,20 @@ const providers = {
       location: history.location
     };
 
-    await trigger('inject', components, triggerLocals);
+    // window.__PRELOADED__=true;
+    // window.__data=${serialize(store.getState())};
 
     // Don't fetch data for initial route, server has already done the work:
     if (window.__PRELOADED__) {
       // Delete initial data so that subsequent data fetches can occur:
+      console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > triggerHooks > window.__PRELOADED__ 11: ', window.__PRELOADED__);
       delete window.__PRELOADED__;
     } else {
       // Fetch mandatory data dependencies for 2nd route change onwards:
+      console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > triggerHooks > window.__PRELOADED__ 22: ', window.__PRELOADED__);
       await trigger('fetch', components, triggerLocals);
     }
+    // Fetch deferred, client-only data dependencies
     await trigger('defer', components, triggerLocals);
 
     // NProgress.done();
@@ -143,7 +161,7 @@ const providers = {
     console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > MODULE.HOT! <<<<<<<<<<<<<<<<<');
     module.hot.accept('./routes', () => {
       const nextRoutes = require('./routes');
-      hydrate(nextRoutes.__esModule ? nextRoutes.default : nextRoutes)
+      hydrate(nextRoutes.__esModule ? nextRoutes.default : nextRoutes);
     });
   } else {
     console.log('>>>>>>>>>>>>>>>>>>> CLIENT.JS > NO MODULE.HOT! <<<<<<<<<<<<<<');

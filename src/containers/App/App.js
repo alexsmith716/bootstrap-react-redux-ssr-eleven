@@ -15,13 +15,11 @@ import config from '../../../config/config';
 
 @provideHooks({
   fetch: async ({ store: { dispatch, getState } }) => {
-    const i = isInfoLoaded(getState())
-    console.log('>>>>>>>>>>>>>>>>> APP > isInfoLoaded(getState()) ???? >>>>>>>>>>>>>>>>>>>>>>>>i: ', i);
     if (!isInfoLoaded(getState())) {
-      const v = await dispatch(loadInfo()).catch(() => null);
-      console.log('>>>>>>>>>>>>>>>>> APP > dispatch(loadInfo()) 1111>>>>>>>>>>>>>>>>>>>>>>>>v: ', v);
+      await dispatch(loadInfo()).catch(() => null);
+      console.log('>>>>>>>>>>>>>>>>> APP > dispatch(loadInfo()) 1111>>>>>>>>>>>>>>>>>>>>>>>>v: ');
     } else {
-      console.log('>>>>>>>>>>>>>>>>> APP > dispatch(loadInfo()) 2222>>>>>>>>>>>>>>>>>>>>>>>>i: ', i);
+      console.log('>>>>>>>>>>>>>>>>> APP > dispatch(loadInfo()) 2222>>>>>>>>>>>>>>>>>>>>>>>>i: ');
     }
   }
 })
