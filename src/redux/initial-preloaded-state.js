@@ -2,7 +2,8 @@
 export default req => ({
 
   device: {
-    isMobile: req.isMobile
+    userAgent: req.userAgent,
+    isBot: req.isBot
   },
 
   counter: {

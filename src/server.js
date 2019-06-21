@@ -1,52 +1,32 @@
-import fs from 'fs';
-import path from 'path';
-// import httpProxy from 'http-proxy';
-
-import config from '../config/config';
-
-import Cookies from 'cookies';
+import React from 'react';
+import ReactDOM from 'react-dom/server';
+import { Provider } from 'react-redux';
+import { Router, StaticRouter } from 'react-router';
+import { createMemoryHistory } from 'history';
+import { renderRoutes } from 'react-router-config';
 import { getStoredState } from 'redux-persist'; 
-
 import { CookieStorage, NodeCookiesWrapper } from 'redux-persist-cookie-storage'; 
-
 import { trigger } from 'redial';
 
-import React from 'react';
-import { Provider } from 'react-redux';
-
 import asyncMatchRoutes from './utils/asyncMatchRoutes';
-
-import { Router, StaticRouter } from 'react-router';
-
-import { renderRoutes } from 'react-router-config';
-
-import ReactDOM from 'react-dom/server';
-
-import configureStore from './redux/configureStore';
-
-import initialStatePreloaded from './redux/initial-preloaded-state';
-
-import { isDesktop, isMobile, isBot } from './utils/device';
-
-import {createMemoryHistory} from 'history';
-
 import routes from './routes';
+import configureStore from './redux/configureStore';
+import initialStatePreloaded from './redux/initial-preloaded-state';
+import { geUserAgent, isBot } from './utils/device';
 
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { flushFiles } from 'webpack-flush-chunks';
 
 import Html from './helpers/Html';
-
-// import actions from './redux/actions';
-// import {message} from './shared/constants';
-
-// ----------------------------------
-
+import config from '../config/config';
 import apiClient from './helpers/apiClient';
 // import { createApp } from './app';
 
 console.log('>>>>>>>>>>>>>>>>> SERVER > ES > CONFIG >>>>>>>>>>>>>>>>>>>>>>>>: ', config);
+
+// ------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------
 
 const getRandomInt = (min, max) => (
   Math.floor(Math.random() * (max - min)) + min
@@ -72,14 +52,12 @@ export default ({ clientStats }) => async (req, res) => {
   console.log('>>>>>>>>>>>>>>>>> SERVER > __SERVER__ ?: ', __SERVER__);
 
   req.counter = getRandomInt(1, 100);
-  req.isMobile = isMobile(req.headers['user-agent']);
+  req.userAgent = geUserAgent(req.headers['user-agent']);
   req.isBot = isBot(req.headers['user-agent']);
-  req.isDesktop = isDesktop(req.headers['user-agent']);
 
   console.log('>>>>>>>>>>>>>>>>> SERVER > req.counter ?: ', req.counter);
-  console.log('>>>>>>>>>>>>>>>>> SERVER > req.isMobile ?: ', req.isMobile);
+  console.log('>>>>>>>>>>>>>>>>> SERVER > req.userAgent ?: ', req.userAgent);
   console.log('>>>>>>>>>>>>>>>>> SERVER > req.isBot ?: ', req.isBot);
-  console.log('>>>>>>>>>>>>>>>>> SERVER > req.isDesktop ?: ', req.isDesktop);
 
   // ----------------------------------
 
@@ -136,7 +114,10 @@ export default ({ clientStats }) => async (req, res) => {
     console.log('>>>>>>>>>>>>>>>> SERVER > await asyncMatchRoutes > match: ', match);
     console.log('>>>>>>>>>>>>>>>> SERVER > await asyncMatchRoutes > params: ', params);
 
-    // prefetch all data for set of routes on server before render
+    // ===================================================================================================
+
+    // prefetch all data for set of routes on server before render >>> (SSR)
+    // redux > modules > INFO
     const triggerLocals = {
       ...providers,
       store,
@@ -146,15 +127,37 @@ export default ({ clientStats }) => async (req, res) => {
       location: history.location
     };
 
-    // define and trigger your own custom route-level lifecycle hooks
+    // ensure all data for a set of routes is prefetched on the server before attempting to render
+    // in order to accommodate this, define and trigger custom route-level lifecycle hooks on route handlers
     // '@provideHooks' decorator allows defining hooks for custom lifecycle events, 
     //      returning promises if any asynchronous operations need to be performed
     // ensure that all data for a set of routes is prefetched on the server before attempting to render
     // trigger function: initiate an event for an arbitrary array of components
     // Wait for async data fetching to complete, then render
     // returns a promise
+    // Triggering lifecycle events (initiate 'provideHooks' 'fetch' event > App.js)
+    // redux > modules > INFO
     await trigger('fetch', components, triggerLocals);
 
+    // ===================================================================================================
+
+    // <Provider store={store} {...providers}> : 
+    //    * makes the Redux store available to any nested components that have been wrapped in the connect() function
+    //    * store={store} : the single Redux store in the app
+    //    * {...providers} : providing a custom context to access the store (apiClient)
+
+    // <Router history={history}> :
+    //    * synchronize a custom history with state management (Redux)
+    //    * history={history} : a 'history' object to use for navigation (a dependency of React Router)
+
+    // <StaticRouter location={req.originalUrl} context={context}>
+    //    * A <Router> that never changes location
+    //    * useful in server-side rendering scenarios because the location never actually changes (SSR to SPA)
+    //    * location={req.originalUrl} : The URL the server received, probably 'req.url' on a node server
+
+    // {renderRoutes(routes)} : routes to render
+
+    // 'context' object contains the results of the render
     const context = {};
 
     const component = (
@@ -210,8 +213,9 @@ export default ({ clientStats }) => async (req, res) => {
     // ===============================================================================
     // ===============================================================================
 
-    // console.log('>>>>>>>>>>>>>>>> SERVER > APP LOADER > context: ', context);
+    // console.log('>>>>>>>>>>>>>>>> SERVER > context.url: ', context.url);
 
+    // 'context.url' will contain the URL to redirect to if a <Redirect> was used
     if (context.url) {
       return res.redirect(301, context.url);
     }
@@ -226,8 +230,9 @@ export default ({ clientStats }) => async (req, res) => {
 
     // ------------------------------------------------------------------------------------------------------
 
-    // console.log('>>>>>>>>>>>>>>>> SERVER > SSR ==================== content: ', content);
-    // console.log('>>>>>>>>>>>>>>>> SERVER > SSR ==================== STORE!!: ', store);
+    console.log('>>>>>>>>>>>>>>>> SERVER > SSR ==================== ASSETS  !!: ', assets);
+    console.log('>>>>>>>>>>>>>>>> SERVER > SSR ==================== STORE   !!: ', store);
+    console.log('>>>>>>>>>>>>>>>> SERVER > SSR ==================== CONTENT !!: ', content);
 
     const html = <Html assets={assets} store={store} content={content} />;
     const ssrHtml = `<!doctype html>${ReactDOM.renderToString(html)}`;

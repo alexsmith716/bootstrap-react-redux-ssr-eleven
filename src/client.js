@@ -1,18 +1,19 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-// make app capable of using hot reloading to make seamless changes
-import { AppContainer as HotEnabler } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router';
-import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
-import { trigger } from 'redial';
 import {createBrowserHistory} from 'history';
+import { Provider } from 'react-redux';
+import { trigger } from 'redial';
+
 // asynchronous offline local storage
 import localForage from 'localforage';
 import { getStoredState } from 'redux-persist';
+// make app capable of using hot reloading to make seamless changes
+import { AppContainer as HotEnabler } from 'react-hot-loader';
 
 import asyncMatchRoutes from './utils/asyncMatchRoutes';
 import { RouterTrigger } from './components';
