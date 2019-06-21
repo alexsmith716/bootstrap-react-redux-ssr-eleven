@@ -1,4 +1,4 @@
-export function getCurrentDevice(ua) {
+export function geUserAgent(ua) {
   return /mobile/i.test(ua) ? 'mobile' : 'desktop';
 }
 

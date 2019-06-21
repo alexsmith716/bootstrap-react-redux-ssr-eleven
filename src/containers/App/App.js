@@ -13,6 +13,8 @@ import { isLoaded as isInfoLoaded, load as loadInfo } from '../../redux/modules/
 // import { Notifs, InfoBar } from '../../components';
 import config from '../../../config/config';
 
+// ensure all data for a set of routes is prefetched on the server before attempting to render
+// in order to accommodate this, define and trigger custom route-level lifecycle hooks on route handlers
 @provideHooks({
   fetch: async ({ store: { dispatch, getState } }) => {
     if (!isInfoLoaded(getState())) {

@@ -5,7 +5,8 @@ export default {
   notifs: {},
 
   device: {
-    isMobile: null,
+    userAgent: null,
+    isBot: null
   },
 
   info: {
