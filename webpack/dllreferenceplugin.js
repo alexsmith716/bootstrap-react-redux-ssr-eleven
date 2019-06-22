@@ -60,6 +60,8 @@ function loadDLLManifest(filePath) {
 
 // ----------------------------------------------------------------------------------------------------------
 
+// >>>>>>>>>>>> dllreferenceplugin > isValidDLLs > Error:  Error: Cannot find module '... /bootstrap-react-redux-ssr-eleven/webpack/dlls/vendor.json'
+
 function isValidDLLs(dllNames, assetsPath) {
 
   return (Array.isArray(dllNames) ? dllNames : [dllNames]).every(dllName => {

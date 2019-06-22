@@ -1,6 +1,6 @@
 
-global.__CLIENT__ = true;
-global.__SERVER__ = false;
+// global.__CLIENT__ = true;
+// global.__SERVER__ = false;
 
 const fs = require('fs');
 const path = require('path');
@@ -21,11 +21,14 @@ const port = process.env.PORT;
 
 var validDLLs = dllHelpers.isValidDLLs('vendor', path.resolve(__dirname, '../build/static'));
 
-if (process.env.WEBPACK_DLLS === '1' && !validDLLs) {
-  process.env.WEBPACK_DLLS = '0';
-  console.log('>>>>>>>>>>>>>>>> dev.client > WEBPACK_DLLS DISABLED !! <<<<<<<<<<<<<<<');
+console.log('>>>>>>>>>>>>>>>> dev.client > process.env.WEBPACK_DLLS !! >: process.env.WEBPACK_DLLS????: ', process.env.WEBPACK_DLLS);
+console.log('>>>>>>>>>>>>>>>> dev.client > validDLLs !! >: validDLLs????: ', validDLLs);
+
+if (process.env.WEBPACK_DLLS === '1' && validDLLs) {
+  console.log('>>>>>>>>>>>>>>>> WEBPACK_DLLS ENABLED !! <<<<<<<<<<<<<<<');
 } else {
-  console.log('>>>>>>>>>>>>>>>> dev.client > WEBPACK_DLLS ENABLED !! <<<<<<<<<<<<<<<');
+  process.env.WEBPACK_DLLS = '0';
+  console.log('>>>>>>>>>>>>>>>> WEBPACK_DLLS DISABLED !! <<<<<<<<<<<<<<<');
 };
 
 // loaderContext: ton of data about loaded object
@@ -294,7 +297,7 @@ const webpackConfig = {
       __CLIENT__: true,
       __SERVER__: false,
       __DEVELOPMENT__: true,
-      __DEVTOOLS__: true,
+      __DEVTOOLS__: true
     }),
 
     // new webpack.NamedModulesPlugin(),

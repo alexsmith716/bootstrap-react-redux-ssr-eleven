@@ -1,6 +1,6 @@
 
-global.__CLIENT__ = true;
-global.__SERVER__ = false;
+// global.__CLIENT__ = true;
+// global.__SERVER__ = false;
 
 const path = require('path');
 const webpack = require('webpack');
@@ -347,6 +347,7 @@ module.exports = {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
 
+    // '__DLLS__: false' : needed for SWPrecacheWebpackPlugin
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify('production') },
       __CLIENT__: true,
@@ -362,7 +363,7 @@ module.exports = {
     }),
 
     new SWPrecacheWebpackPlugin({
-      cacheId: 'bootstrap-react-redux-webpack-ssr-nine',
+      cacheId: 'bootstrap-react-redux-ssr-eleven',
       filename: 'service-worker.js',
       maximumFileSizeToCacheInBytes: 8388608,
 

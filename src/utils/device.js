@@ -1,4 +1,4 @@
-export function geUserAgent(ua) {
+export function getUserAgent(ua) {
   return /mobile/i.test(ua) ? 'mobile' : 'desktop';
 }
 

@@ -107,7 +107,10 @@ export default function configureStore({ data, helpers, persistConfig }) {
   // ----------------------------------------------------------------------
 
   if (__CLIENT__ && __DEVELOPMENT__) {
-    const logger = require('redux-logger').createLogger({collapsed: true}); // custom options
+    const logger = require('redux-logger').createLogger({
+      collapsed: true, 
+      colors: {title: () => 'inherit',prevState: () => '#9E9E9E',action: () => '#03A9F4',nextState: () => '#4CAF50',error: () => '#F20404'}
+    }); // custom options
     middleware.push(logger);
   }
 
@@ -115,7 +118,9 @@ export default function configureStore({ data, helpers, persistConfig }) {
 
   // ----------------------------------------------------------------------
 
-  if (__CLIENT__ && __DEVTOOLS__) {
+  // https://github.com/reduxjs/redux-devtools/tree/master/packages/redux-devtools
+  // https://github.com/reduxjs/redux-devtools/blob/master/docs/Walkthrough.md#manual-integration
+  if (__CLIENT__ && __DEVELOPMENT__ && __DEVTOOLS__) {
     const { persistState } = require('redux-devtools');
     const DevTools = require('../containers/DevTools/DevTools').default;
 

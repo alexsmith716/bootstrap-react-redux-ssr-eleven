@@ -1,6 +1,6 @@
 
-global.__CLIENT__ = false;
-global.__SERVER__ = true;
+// global.__CLIENT__ = false;
+// global.__SERVER__ = true;
 
 const fs = require('fs');
 const path = require('path');
@@ -214,7 +214,7 @@ module.exports = {
   },
 
   plugins: [
-    new WriteFilePlugin(),
+    // new WriteFilePlugin(),
     // new webpack.ProgressPlugin(handler),
     // https://webpack.js.org/plugins/module-concatenation-plugin/
     // new webpack.optimize.ModuleConcatenationPlugin(),
@@ -234,6 +234,7 @@ module.exports = {
       __CLIENT__: false,
       __SERVER__: true,
       __DEVELOPMENT__: true,
+      __DEVTOOLS__: true
     }),
   ]
 };

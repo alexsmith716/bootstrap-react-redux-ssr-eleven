@@ -12,7 +12,7 @@ import asyncMatchRoutes from './utils/asyncMatchRoutes';
 import routes from './routes';
 import configureStore from './redux/configureStore';
 import initialStatePreloaded from './redux/initial-preloaded-state';
-import { geUserAgent, isBot } from './utils/device';
+import { getUserAgent, isBot } from './utils/device';
 
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
@@ -52,7 +52,7 @@ export default ({ clientStats }) => async (req, res) => {
   console.log('>>>>>>>>>>>>>>>>> SERVER > __SERVER__ ?: ', __SERVER__);
 
   req.counter = getRandomInt(1, 100);
-  req.userAgent = geUserAgent(req.headers['user-agent']);
+  req.userAgent = getUserAgent(req.headers['user-agent']);
   req.isBot = isBot(req.headers['user-agent']);
 
   console.log('>>>>>>>>>>>>>>>>> SERVER > req.counter ?: ', req.counter);
@@ -131,7 +131,6 @@ export default ({ clientStats }) => async (req, res) => {
     // in order to accommodate this, define and trigger custom route-level lifecycle hooks on route handlers
     // '@provideHooks' decorator allows defining hooks for custom lifecycle events, 
     //      returning promises if any asynchronous operations need to be performed
-    // ensure that all data for a set of routes is prefetched on the server before attempting to render
     // trigger function: initiate an event for an arbitrary array of components
     // Wait for async data fetching to complete, then render
     // returns a promise
