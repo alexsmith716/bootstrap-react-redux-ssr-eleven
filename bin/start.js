@@ -20,6 +20,12 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 // hot update Webpack bundles on the server
 const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
 
+console.log('>>>>>>>>>>>>>>>>> START > __CLIENT__ ?: ', __CLIENT__);
+console.log('>>>>>>>>>>>>>>>>> START > __SERVER__ ?: ', __SERVER__);
+console.log('>>>>>>>>>>>>>>>>> START > __DEVELOPMENT__ ?: ', __DEVELOPMENT__);
+console.log('>>>>>>>>>>>>>>>>> START > __DISABLE_SSR__ ?: ', __DISABLE_SSR__);
+console.log('>>>>>>>>>>>>>>>>> START > __DLLS__ ?: ', __DLLS__);
+
 const config = {
   host: process.env.HOST || 'localhost',
   port: process.env.PORT
@@ -47,9 +53,6 @@ process.on('rejectionHandled', promise => {
   console.error('>>>>>>>> BIN > START > process > rejectionHandled > promise:', promise);
   unhandledRejections.delete(promise);
 });
-
-console.log('>>>>>>>>>>>>>>>>> START > __CLIENT__ ?: ', __CLIENT__);
-console.log('>>>>>>>>>>>>>>>>> START > __SERVER__ ?: ', __SERVER__);
 
 // const dbURL = config.mongoDBmongooseURL;
 //

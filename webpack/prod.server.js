@@ -1,6 +1,6 @@
 
-global.__CLIENT__ = false;
-global.__SERVER__ = true;
+// global.__CLIENT__ = false;
+// global.__SERVER__ = true;
 
 const fs = require('fs');
 const path = require('path');
@@ -219,8 +219,7 @@ module.exports = {
       __CLIENT__: false,
       __SERVER__: true,
       __DEVELOPMENT__: false,
-      __DEVTOOLS__: false,
-      __DLLS__: false
+      __DEVTOOLS__: false
     }),
     new webpack.HashedModuleIdsPlugin()
   ]
