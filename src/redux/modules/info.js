@@ -10,7 +10,7 @@ import initialState from '../initial-state';
 
 // Reducer
 // -------------------
-export default function info(state = initialState, action = {}) {
+export default function info(state = initialState.info, action = {}) {
 
   switch (action.type) {
 
